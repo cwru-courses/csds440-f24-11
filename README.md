@@ -131,6 +131,50 @@ Answer:
 
 Answer:
 
+**Task 1: HR Bot - Personalized Job Recommendations**
+
+### Goal:
+To develop a machine learning model that can provide personalized job recommendations to users based on their preferences, skills, and previous job search history or previous job applications. The system aims to enhance user engagement by tailoring job listings to individual profiles.
+
+### Performance Measure:
+A suitable performance measure could be **precision**, which evaluates how relevant the recommended jobs are. This can be determined through user post-interaction feedback or ratings. Another metric is the **click rate (CR)** on recommended jobs and number of job applications.
+
+### Examples:
+Input examples could include user profiles with features such as:
+- Job search history
+- Skills and qualifications
+- Location preferences
+- Industry preferences
+
+Each example includes a user's employment history and job interactions, serving as labeled data for supervised learning.
+
+### Hypothesis Space:
+The **domain** of this space consists of the user profile and job feature data (search history, skills, job metadata). The **range** or output of this space is the set of job recommendations for each user (e.g., a ranked list of job IDs).
+
+The hypothesis space might include:
+- **Collaborative filtering models**
+- **Content-based filtering**
+- **Neural networks** for recommendation tasks
+
+Hybrid models that combine user profile data with job metadata can be designed to enhance the personalization process.
+
+### Challenge to Supervised Learning:
+One challenge is the **cold-start problem**, where new users or jobs lack sufficient data for the model to make accurate recommendations. Traditional supervised learning won’t suffice without enough labeled data, so incorporating **unsupervised learning** or **reinforcement learning** might be necessary.
+
+The feature vector representation can be very complex due to the diverse data types of user profiles and job descriptions.
+
+- **User profiles** contain:
+  - Structured data: skills, years of experience, location
+  - Unstructured data: resumes or free-text inputs provided to the bot about job preferences
+  - Behavioral data: job search history, clicks on jobs, applications
+
+- **Job descriptions** contain:
+  - Structured data: job title, qualifications, location, salary range
+  - Unstructured data: paragraphs describing roles, responsibilities, and company culture
+ 
+    
+
+
 
 4. Consider a learning problem where the examples are described by $n$ Boolean attributes. Prove that the number of *distinct* decision trees that can be constructed in this setting is $2^{2^n}$. *Distinct* means that each tree must represent a different hypothesis in the space. \[Hint: Show that there is a bijection between the set of all Boolean functions over $n$ Boolean attributes and the set of all distinct trees.\] 
 
