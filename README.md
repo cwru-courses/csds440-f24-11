@@ -9,7 +9,7 @@ When working as a group, only one answer to each question is needed unless other
 
 1. Points are sampled uniformly at random from the interval $(0,1)^2$ so that they lie on the line $x+y=1$. Determine the expected squared distance between any two sampled points. 
 
-Answer:
+**Answer:**
 
 
 To determine the expected squared distance between two points sampled uniformly at random from the line $x + y = 1$ within the interval $(0,1)^2$, we need to find the dististance function and calculate its expected value:
@@ -124,12 +124,72 @@ Therefore, we obtain the expected squared distance between any two randomly samp
 
 2. For any two random variables $X$ and $Y$, the conditional expectation of $X$ given $Y=y$ is defined by $E(X|Y=y)=\sum_x p_X(x|Y=y)$ for a fixed $y$. Show that, for any three random variables $A$, $B$ and $C$, $E(A+B|C=c)=E(A|C=c)+E(B|C=c)$.
 
-Answer:
+**Answer:**
+
+To prove that the conditional expectation of the sum of random variables is equal to the sum of their conditional expectations, i.e.,
+
+$$
+E(A + B \mid Y = y) = E(A \mid Y = y) + E(B \mid Y = y),
+$$
+
+we will use the linearity of expectation and the definition of conditional expectation.
+
+### Proof:
+
+#### We know that conditional expectation of a random variable \(X\) given another random variable \(C\) is defined as:
+
+$$
+E(X \mid Y = y) = \sum_{x} x \cdot P(X = x \mid Y = y),
+$$
+
+here the summation is over all possible values of \(X\).
+
+
+
+ Let's expand the above definition of conditional expectation for the sum \(A + B\):
+
+$$
+E(A + B \mid C = c) = \sum_{a, b} (a + b) \cdot P(A = a, B = b \mid C = c).
+$$
+
+We can rewrite the RHS  by distributing the terms inside the sum:
+
+$$
+E(A + B \mid C = c) = \sum_{a, b} a \cdot P(A = a, B = b \mid C = c) + \sum_{a, b} b \cdot P(A = a, B = b \mid C = c).
+$$
+
+Now,  applying the summation seperately:
+
+$$
+E(A + B \mid C = c) = \sum_{a} a \left(\sum_b P(A = a, B = b \mid C = c)\right) + \sum_{b} b \left(\sum_a P(A = a, B = b \mid C = c)\right).
+$$
+
+
+We know that $$ \sum_b P(A = a, B = b \mid C = c)  = P(A = a \mid C = c)  $$ 
+$$ \sum_a P(A = a, B = b \mid C = c)  = P(A = b \mid C = c)  $$ 
+By marginalizing over the conditional probabilities:
+$$
+E(A + B \mid C = c) = \sum_{a} a \cdot P(A = a \mid C = c) + \sum_{b} b \cdot P(B = b \mid C = c).
+$$
+
+These are the definitions of the conditional expectations:
+
+$$
+E(A + B \mid C = c) = E(A \mid C = c) + E(B \mid C = c).
+$$
+
+### Conclusion:
+
+$$
+\boxed{E(A + B \mid C = c) = E(A \mid C = c) + E(B \mid C = c).}
+$$
+
+This proove that for any three random variables $A$, $B$ and $C$, $E(A+B|C=c)=E(A|C=c)+E(B|C=c)$.
 
 
 3. Describe two learning tasks that might be suitable for machine learning approaches. For each task, write down the goal, a possible performance measure, what examples you might get and what a suitable hypothesis space might be. Be original---don’t write about tasks discussed in class or described in the texts. Preferably select tasks from your research area (if any). Describe any aspect of the task(s) that may not fit well with the supervised learning setting and feature vector representation we have discussed. 
 
-Answer:
+**Answer:**
 
 **Task 1: HR Bot - Personalized Job Recommendations**
 
@@ -209,18 +269,19 @@ The hypothesis space might include:
 
 4. Consider a learning problem where the examples are described by $n$ Boolean attributes. Prove that the number of *distinct* decision trees that can be constructed in this setting is $2^{2^n}$. *Distinct* means that each tree must represent a different hypothesis in the space. \[Hint: Show that there is a bijection between the set of all Boolean functions over $n$ Boolean attributes and the set of all distinct trees.\] 
 
-Answer:
+**Answer:**
 
-5.	(i) Give an example of a nontrivial (nonconstant) Boolean function over $3$ Boolean attributes where $IG(X)$ would return zero for *all* attributes at the root. (ii) Explain the significance of this observation. 
+5.	(i) Give an example of a nontrivial (nonconstant) Boolean function over $3$ Boolean attributes where $IG(X)$ would return zero for *all* attributes at the root. (ii) Explain the significance of this observation.
+   
+**Answer:**
 
+6. Estimate how many functions satisfying Q5 (i) could exist over $n$ attributes, as a function of $n$. 
 
-6. Estimate how many functions satisfying Q1 (i) could exist over $n$ attributes, as a function of $n$. 
-
-Answer:
+**Answer:**
  
 7.	Show that for a continuous attribute $X$, the only split values we need to check to determine a split with max $IG(X)$ lie between points with different labels. (Hint: consider the following setting for $X$: there is a candidate split point $S$ in the middle of $N$ examples with the same label. To the left of $S$ are $n$ such examples. To the left of $N$, there are $L_0$ examples with label negative and the $L_1$ positive, and likewise $(M_0, M_1)$ to the right. Express the information gain of $S$ as a function of $n$. Then show that this function is maximized either when $n=0$ or $n=N$ with all else constant.) (30 points)
 
-Answer:
+**Answer:**
 ![DocScanner 12 Sept 2024 1-54 pm_1](https://github.com/user-attachments/assets/49ab91a3-712f-4327-9d67-00b03f4d7a27)
 ![DocScanner 12 Sept 2024 1-54 pm_2](https://github.com/user-attachments/assets/2c4934f4-2334-42b3-8f2f-6d35eaef376f)
 ![DocScanner 12 Sept 2024 1-54 pm_3](https://github.com/user-attachments/assets/e31f4bd3-d699-4905-b916-d635ddaf1c6c)
