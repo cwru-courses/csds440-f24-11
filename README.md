@@ -171,6 +171,37 @@ The feature vector representation can be very complex due to the diverse data ty
 - **Job descriptions** contain:
   - Structured data: job title, qualifications, location, salary range
   - Unstructured data: paragraphs describing roles, responsibilities, and company culture
+
+# Task 2: Mobile Face Recognition
+
+## Goal:
+To develop a machine learning model that can perform face recognition in real time, accurately, and quickly on mobile devices. This feature is used for authentication to log in to personal devices and verify identity for apps such as banking,finance, personal etc.
+
+## Performance Measure:
+Suitable performance measures include:
+- **Accuracy**: How often the system correctly recognizes the authorized user.
+- **False Positive Rate**: How often the model mistakenly recognizes unauthorized users as authorized.
+- **False Negative Rate**: How often the system fails to recognize a legitimate user.
+- **Processing Time**: The speed at which the system can recognize the user to ensure a seamless experience.
+
+## Examples:
+Input examples could include:
+- Images captured of a person’s face using the mobile's camera.
+- Data collection during user registration to train the model, including face images with different backgrounds and lighting conditions.
+- The model must learn to identify the user while ensuring unauthorized users are not recognized.
+
+## Hypothesis Space:
+- The **domain** consists of all possible input values such as multiple poses, expressions, and different lighting conditions (pixel values of face images).
+- The **range** is binary (0 or 1): whether the face matches the authorized user or not.
+
+The hypothesis space might include:
+- **Convolutional Neural Networks (CNNs)** or other **deep learning models** for feature extraction from face images.
+- The domain represents continuous input (face images), and the output is a Boolean function indicating whether the face matches the authorized user or not.
+
+## Challenges to Supervised Learning:
+- **Real-time constraints** due to limited processing power on mobile devices.
+- **Input variation**, including different lighting conditions, poses, and expressions, which can influence the model’s performance.
+
  
     
 
