@@ -269,11 +269,88 @@ The hypothesis space might include:
 
 4. Consider a learning problem where the examples are described by $n$ Boolean attributes. Prove that the number of *distinct* decision trees that can be constructed in this setting is $2^{2^n}$. *Distinct* means that each tree must represent a different hypothesis in the space. \[Hint: Show that there is a bijection between the set of all Boolean functions over $n$ Boolean attributes and the set of all distinct trees.\] 
 
-**Answer:**
+**Ans.4.**\
+**Step 1: Boolean attributes and possible inputs**\
+\
+Let X={0,1}n denote the set of all possible inputs consisting of n Boolean attributes. Each element of X is an n-tuple of the form (x1,x2,…,xn), where xi∈{0,1} for i=1,2,…,n.\
+\
+The size of X, i.e., the total number of distinct inputs, is ∣X∣=2^n because each of the n attributes can take one of two values (either 0 or 1).\
+\
+**Step 2: Boolean functions**\
+\
+A Boolean function f:X→{0,1} maps each input x∈X to either 0 or 1. This means that for each of the 2^n possible inputs in X, the function f assigns one of two possible output values.\
+\
+The number of distinct Boolean functions is determined by the number of different ways to assign outputs to each of the 2^n inputs. Since there are two possible output values (either 0 or 1) for each input, the total number of distinct Boolean functions over n attributes is ∣F∣=2^2^n.\
+\
+This is because each of the 2^n input combinations can be mapped independently to 0 or 1, so we have 2 choices for each of the 2^n inputs, giving us 2^2^n possible Boolean functions.\
+\
+**Step 3: Decision trees and Boolean functions**\
+\
+A decision tree is a representation of a Boolean function. For each possible input x∈X, the decision tree traverses through internal nodes (each labeled by a Boolean attribute) to reach a leaf node that outputs either 0 or 1. The process of traversing the decision tree corresponds to evaluating the Boolean function.\
+\
+Thus, each decision tree defines a Boolean function, as it uniquely determines an output for each input x∈X. Since no two distinct decision trees can produce the same output for all inputs, each distinct decision tree corresponds to a unique Boolean function.\
+\
+**Step 4: Bijection between Boolean functions and decision trees**\
+\
+We now show that there is a bijection between the set of Boolean functions and the set of distinct decision trees.\
+\
+**Injectivity:** Suppose there are two distinct decision trees, T1 and T2. Since the structure of a decision tree completely determines the output for every possible input, if T1!=T2, there must be at least one input x∈X for which the outputs of T1 and T2 differ. Therefore, the Boolean functions represented by T1 and T2 are also distinct, implying that different trees correspond to different functions. Thus, the mapping from decision trees to Boolean functions is injective.\
+**Surjectivity:** For every Boolean function f:X→{0,1}, there exists a decision tree that computes f. We can construct such a decision tree by recursively splitting on the attributes and assigning outputs at the leaves that match the function f's values for each possible input. Therefore, every Boolean function can be represented by a decision tree, proving that the mapping is surjective.\
+\
+Since the mapping is both injective and surjective, it is a bijection.\
+\
+**Step 5: Conclusion**
+\
+Since there is a bijection between the set of Boolean functions and the set of distinct decision trees, and since the number of Boolean functions is 2^2^n, the number of distinct decision trees is also 2^2^n.\
+\
+Thus, the number of distinct decision trees that can be constructed for n Boolean attributes is 2^2^n.\
 
 5.	(i) Give an example of a nontrivial (nonconstant) Boolean function over $3$ Boolean attributes where $IG(X)$ would return zero for *all* attributes at the root. (ii) Explain the significance of this observation.
    
-**Answer:**
+
+**Ans.5.**\
+I take an example of the **parity function** on 3 Boolean attributes, which outputs 1 if the number of 1s in the input is **even**, and 0 if the number of 1s is **odd**. This function can be written as:
+f(X1,X2,X3)=¬(X1⊕X2⊕X3).\
+\
+The truth table for this function is:
+
+| X1 | X2 | X3 | f(X1,X2,X3) |
+|----|----|----|-------------|
+|  0 |  0 |  0 |           1 |
+|  0 |  0 |  1 |           0 |
+|  0 |  1 |  0 |           0 |
+|  0 |  1 |  1 |           1 |
+|  1 |  0 |  0 |           0 |
+|  1 |  0 |  1 |           1 |
+|  1 |  1 |  0 |           1 |
+|  1 |  1 |  1 |           0 |
+
+
+Truth Table shows,the output is equally likely to be 0 or 1 for any value of any attribute.\
+For example, consider splitting on X1:\
+\
+• When X1=0, the subtable for (X2,X3) has 2 outcomes of 0 and 2 outcomes of 1, so the conditional entropy H(Y∣X1=0)=1.\
+• When X1=1, the subtable for (X2,X3) has 2 outcomes of 0 and 2 outcomes of 1, so the conditional entropy H(Y∣X1=1)=1.\
+\
+\
+Therefore, the conditional entropy is:\
+\
+H(Y∣X1)=1/2⋅1+1/2⋅1=1\
+\
+This holds for any attribute X1,X2,X3,because the function is symmetric in all attributes so the Information Gain for any attribute is:\
+\
+IG(Xi)=H(Y)−H(Y∣Xi)=1−1=0\
+\
+In this case, again, splitting based on any single attribute X1, X2, or X3 will not reduce the uncertainty of the output (entropy). \
+\
+Also, For each attribute, the output of the function is equally likely to be 0 or 1 regardless of the value of that attribute, so the Information Gain for any attribute will be zero.\
+\
+**(ii) Significance of this observation:**\
+\
+The fact that Information Gain is zero for all attributes at the root highlights that the **parity function is not linearly separable** and cannot be captured by a simple decision tree based on single-attribute splits. In other words, no single attribute provides any meaningful information about the output on its own because the function depends on a combination of attributes rather than on individual ones.\
+\
+This is significant because it shows the limitations of decision trees in handling functions like parity function. In order to capture the behavior of such a function, more complex models (e.g., those that can handle interactions between attributes) or deeper trees that consider combinations of attributes are necessary. It illustrates that decision trees can struggle with functions where the output is based on a non-obvious, non-linear combination of inputs.
+
 
 6. Estimate how many functions satisfying Q5 (i) could exist over $n$ attributes, as a function of $n$. 
 
