@@ -125,7 +125,6 @@ Therefore, we obtain the expected squared distance between any two randomly samp
 2. For any two random variables $X$ and $Y$, the conditional expectation of $X$ given $Y=y$ is defined by $E(X|Y=y)=\sum_x p_X(x|Y=y)$ for a fixed $y$. Show that, for any three random variables $A$, $B$ and $C$, $E(A+B|C=c)=E(A|C=c)+E(B|C=c)$.
 
 **Answer:**
-
 To prove that the conditional expectation of the sum of random variables is equal to the sum of their conditional expectations, i.e.,
 
 $$
@@ -165,7 +164,10 @@ E(A + B \mid C = c) = \sum_{a} a \left(\sum_b P(A = a, B = b \mid C = c)\right) 
 $$
 
 
-We know that $$ \sum_b P(A = a, B = b \mid C = c)  = P(A = a \mid C = c)  $$ 
+We know that 
+$$ 
+\sum_b P(A = a, B = b \mid C = c)  = P(A = a \mid C = c)
+$$ 
 $$ \sum_a P(A = a, B = b \mid C = c)  = P(A = b \mid C = c)  $$ 
 By marginalizing over the conditional probabilities:
 $$
@@ -184,7 +186,8 @@ $$
 \boxed{E(A + B \mid C = c) = E(A \mid C = c) + E(B \mid C = c).}
 $$
 
-This proove that for any three random variables $A$, $B$ and $C$, $E(A+B|C=c)=E(A|C=c)+E(B|C=c)$.
+This proove that for any three random variables $A$, $B$ and $C$, $E(A+B|C=c)=E(A|C=c)+E(B|C=c)$. 
+
 
 
 3. Describe two learning tasks that might be suitable for machine learning approaches. For each task, write down the goal, a possible performance measure, what examples you might get and what a suitable hypothesis space might be. Be original---don’t write about tasks discussed in class or described in the texts. Preferably select tasks from your research area (if any). Describe any aspect of the task(s) that may not fit well with the supervised learning setting and feature vector representation we have discussed. 
@@ -279,7 +282,7 @@ We know that:-
   - Each edge in the tree represnts a possible value of the variable (0 or 1).
   - Each leaf node represnt an output (0 or 1).
 
-###Lets define following Sets
+### Lets define following Sets
 
 - $\mathcal{T}$ be the set of all decision trees for $n$ variables of depth n.
 - $\mathcal{B}$ be the set of all Boolean functions with $n$ variables. The size of $\mathcal{B}$ is $2^{2^n}$ because there are $2^n$ possible inputs, each and every input to either zero(0) or one(1).
