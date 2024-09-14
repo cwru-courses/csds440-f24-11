@@ -267,89 +267,308 @@ The hypothesis space might include:
 
 
 
-4. Consider a learning problem where the examples are described by $n$ Boolean attributes. Prove that the number of *distinct* decision trees that can be constructed in this setting is $2^{2^n}$. *Distinct* means that each tree must represent a different hypothesis in the space. \[Hint: Show that there is a bijection between the set of all Boolean functions over $n$ Boolean attributes and the set of all distinct trees.\] 
+4. Consider a learning problem where the examples are described by $n$ Boolean attributes. Prove that the number of *distinct* decision trees that can be constructed in this setting is $2^{2^n}$. *Distinct* means that each tree must represent a different hypothesis in the space. \[Hint: Show that there is a bijection between the set of all Boolean functions over $n$ Boolean attributes and the set of all distinct trees.\]
 
-**Ans.4.**\
-**Step 1: Boolean attributes and possible inputs**\
-\
-Let X={0,1}n denote the set of all possible inputs consisting of n Boolean attributes. Each element of X is an n-tuple of the form (x1,x2,…,xn), where xi∈{0,1} for i=1,2,…,n.\
-\
-The size of X, i.e., the total number of distinct inputs, is ∣X∣=2^n because each of the n attributes can take one of two values (either 0 or 1).\
-\
-**Step 2: Boolean functions**\
-\
-A Boolean function f:X→{0,1} maps each input x∈X to either 0 or 1. This means that for each of the 2^n possible inputs in X, the function f assigns one of two possible output values.\
-\
-The number of distinct Boolean functions is determined by the number of different ways to assign outputs to each of the 2^n inputs. Since there are two possible output values (either 0 or 1) for each input, the total number of distinct Boolean functions over n attributes is ∣F∣=2^2^n.\
-\
-This is because each of the 2^n input combinations can be mapped independently to 0 or 1, so we have 2 choices for each of the 2^n inputs, giving us 2^2^n possible Boolean functions.\
-\
-**Step 3: Decision trees and Boolean functions**\
-\
-A decision tree is a representation of a Boolean function. For each possible input x∈X, the decision tree traverses through internal nodes (each labeled by a Boolean attribute) to reach a leaf node that outputs either 0 or 1. The process of traversing the decision tree corresponds to evaluating the Boolean function.\
-\
-Thus, each decision tree defines a Boolean function, as it uniquely determines an output for each input x∈X. Since no two distinct decision trees can produce the same output for all inputs, each distinct decision tree corresponds to a unique Boolean function.\
-\
-**Step 4: Bijection between Boolean functions and decision trees**\
-\
-We now show that there is a bijection between the set of Boolean functions and the set of distinct decision trees.\
-\
-**Injectivity:** Suppose there are two distinct decision trees, T1 and T2. Since the structure of a decision tree completely determines the output for every possible input, if T1!=T2, there must be at least one input x∈X for which the outputs of T1 and T2 differ. Therefore, the Boolean functions represented by T1 and T2 are also distinct, implying that different trees correspond to different functions. Thus, the mapping from decision trees to Boolean functions is injective.\
-**Surjectivity:** For every Boolean function f:X→{0,1}, there exists a decision tree that computes f. We can construct such a decision tree by recursively splitting on the attributes and assigning outputs at the leaves that match the function f's values for each possible input. Therefore, every Boolean function can be represented by a decision tree, proving that the mapping is surjective.\
-\
-Since the mapping is both injective and surjective, it is a bijection.\
-\
-**Step 5: Conclusion**
-\
-Since there is a bijection between the set of Boolean functions and the set of distinct decision trees, and since the number of Boolean functions is 2^2^n, the number of distinct decision trees is also 2^2^n.\
-\
-Thus, the number of distinct decision trees that can be constructed for n Boolean attributes is 2^2^n.\
+**Answer:**
+To prove that  the number of *distinct* decision trees that can be constructed in this setting is $2^{2^n}$ we have to show that there is a bijection between the set of decision trees of depth n and the set of all possible Boolean functions. 
+
+We know that:-
+- **Boolean Function:** A Boolean function of $n$ variables is a function $f: \{0,1\}^n \to \{0,1\}$.
+- **Decision Tree:** A decision tree for $n$ variables is a binary tree where:
+  - Each internal node corresponds to a test on one of the variables.
+  - Each edge in the tree represnts a possible value of the variable (0 or 1).
+  - Each leaf node represnt an output (0 or 1).
+
+###Lets define following Sets
+
+- $\mathcal{T}$ be the set of all decision trees for $n$ variables of depth n.
+- $\mathcal{B}$ be the set of all Boolean functions with $n$ variables. The size of $\mathcal{B}$ is $2^{2^n}$ because there are $2^n$ possible inputs, each and every input to either zero(0) or one(1).
+
+### To Prove: $\mathcal{T}$ is in bijection with $\mathcal{B}$.
+ we have to show that the function is one to one and onto function which can be called Injectivity , surjectivity respectively.
+
+#### To prove Injectivity [One to one] (Each Decision Tree Represents a Unique Boolean Function)
+
+- **Define a Mapping:** Define a mapping $\phi: \mathcal{T} \to \mathcal{B}$ that assigns each decision tree $t \in \mathcal{T}$ to a Boolean function $f_t \in \mathcal{B}$.
+   
+- **Evaluating the Function $f_t$ from a tree $t \in \mathcal{T}$ :** For any input combination $(x_1, x_2, \ldots, x_n) \in \{0,1\}^n$:
+   - Start at the root of the decision tree $t$. Traverse the tree from the root to the leaf by following edges corresponding to the values of the variables in $(x_1, x_2, \ldots, x_n)$.The output $f_t(x_1, x_2, \ldots, x_n)$ is the value of the leaf node reached.
+
+**So for any input combination $(x_1, x_2, \ldots, x_n)$, a path from the root to the leaf in a decision tree t uniquely identifies a mapping from  $(x_1, x_2, \ldots, x_n)$ to the output $f_t(x_1, x_2, \ldots, x_n)$ of the boolean function**
+
+3. **proof of Uniqueness:** Suppose two different decision trees $t_1$ and $t_2$ represent the same function $f$.
+   - Since $t_1 \neq t_2$, there must be at least one input $(x_1, x_2, \ldots, x_n)$ where the traversal of $t_1$ and $t_2$ leads to different outputs, which contradicts the assumption that $t_1$ and $t_2$ represent the same function f as the function woulld have diffrent output that perticular combination $(x_1, x_2, \ldots, x_n)$ of input.
+   - Therefore, $\phi$ is one to one or Injectivity.
+
+#### Step 2: Surjectivity [Onto] (Every Boolean Function Can Be Represented by a Decision Tree)
+
+1. **Construct a Decision Tree for Any Boolean Function $f \in \mathcal{B}$:**
+   - Start with the root node. For each input variable $x_i$, create a branching node. Recursively create branches for each value (0 and 1) of $x_i$.
+   - Continue this until all variables are used (depth of the tree is $n$). Assign the corresponding output $f(x_1, x_2, \ldots, x_n)$ at each leaf node based on the values of $(x_1, x_2, \ldots, x_n)$.
+
+2. **Existence:** By the construction, every Boolean function $f \in \mathcal{B}$ has a corresponding decision tree $T \in \mathcal{D}$ that outputs $f$ for all inputs. Hence, $\phi$ is surjective.
+
+
+### Conclusion
+<img src="image-1.png" alt="Description" style="width: 50%; height: auto;">
+
+We have shown mathematically that:
+
+1. Each decision tree corresponds to a unique Boolean function (injectivity).
+2. Every Boolean function can be represented by a decision tree (surjectivity).
+
+Therefore, the set of decision trees $\mathcal{T}$ is in bijection with the set of Boolean functions $\mathcal{B}$.
+
+### Finding Cardinality of set $\mathcal{B}$:-
+
+- The set of all Boolean functions $\mathcal{B}$, consists of all possible mappings from the set of all combinations of input  $(x_1, x_2, \ldots, x_n)$ to a binary output (0 or 1).
+- For $n$ Boolean attributes, there are $2^n$ possible input combinations, as each attribute can be either 0 or 1 and 2 possible output combination.
+
+- Each of these $2^n$ input can map to either 0 or 1, which gives us 2 choices for each combination. Therefore, the total number of  mappings from the set of input combinations to the binary output is $2^{2^n}$. 
+- Therefore, |$\mathcal{B}$| = $2^{2^n}$.
+
+Finding Cardinality of set $\mathcal{T}$:-
+
+#### Since there exist a Bijection mapping $\phi: \mathcal{T} \to \mathcal{B}$. The cardinality of both sets are same ie  $|\mathcal{T}| =  |\mathcal{B}|$=  $2^{2^n}$ 
+
+**Therefore, this proves that distinct decision trees that can be constructed in a learning problem with $n$ Boolean attributes is $2^{2^n}$.**
+
+
 
 5.	(i) Give an example of a nontrivial (nonconstant) Boolean function over $3$ Boolean attributes where $IG(X)$ would return zero for *all* attributes at the root. (ii) Explain the significance of this observation.
-   
 
-**Ans.5.**\
-I take an example of the **parity function** on 3 Boolean attributes, which outputs 1 if the number of 1s in the input is **even**, and 0 if the number of 1s is **odd**. This function can be written as:
-f(X1,X2,X3)=¬(X1⊕X2⊕X3).\
-\
-The truth table for this function is:
+**Answer:**
 
-| X1 | X2 | X3 | f(X1,X2,X3) |
-|----|----|----|-------------|
-|  0 |  0 |  0 |           1 |
-|  0 |  0 |  1 |           0 |
-|  0 |  1 |  0 |           0 |
-|  0 |  1 |  1 |           1 |
-|  1 |  0 |  0 |           0 |
-|  1 |  0 |  1 |           1 |
-|  1 |  1 |  0 |           1 |
-|  1 |  1 |  1 |           0 |
+#### (i) Nontrivial example of a Boolean Function Where $( IG(X) )$ is Zero for All Attributes
+
+Consider the  XOR function of 3-input defined as:
+
+$ f(A, B, C) = A \oplus B \oplus C $
+
+This function outputs 1 if and only if odd number of inputs are 1.
+
+**Truth Table:**
+
+| A | B | C | $f(A, B, C)$ |
+|---|---|---|------------------|
+| 0 | 0 | 0 |        0         |
+| 0 | 0 | 1 |        1         |
+| 0 | 1 | 0 |        1         |
+| 0 | 1 | 1 |        0         |
+| 1 | 0 | 0 |        1         |
+| 1 | 0 | 1 |        0         |
+| 1 | 1 | 0 |        0         |
+| 1 | 1 | 1 |        1         |
 
 
-Truth Table shows,the output is equally likely to be 0 or 1 for any value of any attribute.\
-For example, consider splitting on X1:\
-\
-• When X1=0, the subtable for (X2,X3) has 2 outcomes of 0 and 2 outcomes of 1, so the conditional entropy H(Y∣X1=0)=1.\
-• When X1=1, the subtable for (X2,X3) has 2 outcomes of 0 and 2 outcomes of 1, so the conditional entropy H(Y∣X1=1)=1.\
-\
-\
-Therefore, the conditional entropy is:\
-\
-H(Y∣X1)=1/2⋅1+1/2⋅1=1\
-\
-This holds for any attribute X1,X2,X3,because the function is symmetric in all attributes so the Information Gain for any attribute is:\
-\
-IG(Xi)=H(Y)−H(Y∣Xi)=1−1=0\
-\
-In this case, again, splitting based on any single attribute X1, X2, or X3 will not reduce the uncertainty of the output (entropy). \
-\
-Also, For each attribute, the output of the function is equally likely to be 0 or 1 regardless of the value of that attribute, so the Information Gain for any attribute will be zero.\
-\
-**(ii) Significance of this observation:**\
-\
-The fact that Information Gain is zero for all attributes at the root highlights that the **parity function is not linearly separable** and cannot be captured by a simple decision tree based on single-attribute splits. In other words, no single attribute provides any meaningful information about the output on its own because the function depends on a combination of attributes rather than on individual ones.\
-\
-This is significant because it shows the limitations of decision trees in handling functions like parity function. In order to capture the behavior of such a function, more complex models (e.g., those that can handle interactions between attributes) or deeper trees that consider combinations of attributes are necessary. It illustrates that decision trees can struggle with functions where the output is based on a non-obvious, non-linear combination of inputs.
+
+## Entropy Calculations
+
+- ###  Calculate the Entropy of the Whole Dataset
+
+For a binary output, the entropy is given by:
+
+$$ H(Y) = - p_0 \log_2 p_0 - p_1 \log_2 p_1 $$
+
+where $p_0$ and $p_1$ are the probabilities of the outcomes 0 and 1.
+
+From the truth table, we can find the distribution of $f(A, B, C)$ is:
+
+- $p_0$ (Probability of  0) = $\frac{4}{8} = 0.5$
+- $p_1$ (Probability of  1) = $\frac{4}{8} = 0.5$
+
+Thus:
+
+$$ H(Y) = - (0.5 \log_2 0.5 + 0.5 \log_2 0.5) $$
+
+$$ H(Y) = - (0.5 \times (-1) + 0.5 \times (-1)) $$
+
+$$ H(Y) = - (-1) $$
+
+$$ H(Y) = 1 $$
+
+
+
+- ### Information Gain on splitting on attribute $A$
+
+**Entropy Calculation After Splitting on $A$:**
+
+- **$A = 0$:**
+
+| A | B | C | $f(A, B, C)$ |
+|---|---|---|--------------|
+| 0 | 0 | 0 |      0       |
+| 0 | 0 | 1 |      1       |
+| 0 | 1 | 0 |      1       |
+| 0 | 1 | 1 |      0       |
+
+For $A = 0$:
+- Total number = 4
+- Number of 0s = 2
+- Number of 1s = 2
+- $p_0 = 2/4 = 0.5$
+- $p_1 = 2/4 = 0.5$
+
+$$ H(Y | A = 0) = - (0.5 \log_2 0.5 + 0.5 \log_2 0.5) $$
+$$ H(Y | A = 0) = 1 $$
+
+- **$A = 1$:**
+
+| A | B | C | $f(A, B, C)$ |
+|---|---|---|--------------|
+| 1 | 0 | 0 |      1       |
+| 1 | 0 | 1 |      0       |
+| 1 | 1 | 0 |      0       |
+| 1 | 1 | 1 |      1       |
+
+For $A = 1$:
+- Total number = 4
+- Number of 0s = 2
+- Number of 1s = 2
+- $p_0 = 2/4 = 0.5$
+- $p_1 = 2/4 = 0.5$
+
+$$ H(Y | A = 1) = - (0.5 \log_2 0.5 + 0.5 \log_2 0.5) $$
+$$ H(Y | A = 1) = 1 $$
+
+**Weighted Average Entropy After Splitting on $A$:**
+
+Since the dataset is equally split between the outputs $A = 0$ and $A = 1$:
+
+$$ H(Y | A) = 0.5 \times H(Y | A = 0) + 0.5 \times H(Y | A = 1) $$
+$$ H(Y | A) = 0.5 \times 1 + 0.5 \times 1 $$
+$$ H(Y | A) = 1 $$
+
+**Information Gain for $A$:**
+
+$$ IG(A) = H(Y) - H(Y | A) $$
+$$ IG(A) = 1 - 1 $$
+$$ IG(A) = 0 $$
+
+- ###  Information Gain for Attribute $B$
+
+**Entropy Calculation After Splitting on $B$:**
+
+- **$B = 0$:**
+
+| A | B | C | $f(A, B, C)$ |
+|---|---|---|--------------|
+| 0 | 0 | 0 |      0       |
+| 0 | 0 | 1 |      1       |
+| 1 | 0 | 0 |      1       |
+| 1 | 0 | 1 |      0       |
+
+For $B = 0$:
+- Total number = 4
+- Number of 0s = 2
+- Number of 1s = 2
+- $p_0 = 2/4 = 0.5$
+- $p_1 = 2/4 = 0.5$
+
+$$ H(Y | B = 0) = - (0.5 \log_2 0.5 + 0.5 \log_2 0.5) $$
+$$ H(Y | B = 0) = 1 $$
+
+- **$B = 1$:**
+
+| A | B | C | $f(A, B, C)$ |
+|---|---|---|--------------|
+| 0 | 1 | 0 |      1       |
+| 0 | 1 | 1 |      0       |
+| 1 | 1 | 0 |      0       |
+| 1 | 1 | 1 |      1       |
+
+For $B = 1$:
+- Total number = 4
+- Number of 0s = 2
+- Number of 1s = 2
+- $p_0 = 2/4 = 0.5$
+- $p_1 = 2/4 = 0.5$
+
+$$ H(Y | B = 1) = - (0.5 \log_2 0.5 + 0.5 \log_2 0.5) $$
+$$ H(Y | B = 1) = 1 $$
+
+**Weighted Average Entropy After Splitting on $B$:**
+
+Since the dataset is equally split between $B = 0$ and $B = 1$:
+
+$$ H(Y | B) = 0.5 \times H(Y | B = 0) + 0.5 \times H(Y | B = 1) $$
+$$ H(Y | B) = 0.5 \times 1 + 0.5 \times 1 $$
+$$ H(Y | B) = 1 $$
+
+**Information Gain for $B$:**
+
+$$ IG(B) = H(Y) - H(Y | B) $$
+$$ IG(B) = 1 - 1 $$
+$$ IG(B) = 0 $$
+
+- ### 3. Information Gain for Attribute $C$
+
+**Entropy Calculation After Splitting on $C$:**
+
+- **$C = 0$:**
+
+| A | B | C | $f(A, B, C)$ |
+|---|---|---|--------------|
+| 0 | 0 | 0 |      0       |
+| 1 | 0 | 0 |      1       |
+| 0 | 1 | 0 |      1       |
+| 1 | 1 | 0 |      0       |
+
+For $C = 0$:
+- Total number = 4
+- Number of 0s = 2
+- Number of 1s = 2
+- $p_0 = 2/4 = 0.5$
+- $p_1 = 2/4 = 0.5$
+
+$$ H(Y | C = 0) = - (0.5 \log_2 0.5 + 0.5 \log_2 0.5) $$
+$$ H(Y | C = 0) = 1 $$
+
+- **$C = 1$:**
+
+| A | B | C | $f(A, B, C)$ |
+|---|---|---|--------------|
+| 0 | 0 | 1 |      1       |
+| 1 | 0 | 1 |      0       |
+| 0 | 1 | 1 |      0       |
+| 1 | 1 | 1 |      1       |
+
+For $C = 1$:
+- Total number = 4
+- Number of 0s = 2
+- Number of 1s = 2
+- $p_0 = 2/4 = 0.5$
+- $p_1 = 2/4 = 0.5$
+
+$$ H(Y | C = 1) = - (0.5 \log_2 0.5 + 0.5 \log_2 0.5) $$
+$$ H(Y | C = 1) = 1 $$
+
+**Weighted Average Entropy After Splitting on $C$:**
+
+Since the dataset is equally split between $C = 0$ and $C = 1$:
+
+$$ H(Y | C) = 0.5 \times H(Y | C = 0) + 0.5 \times H(Y | C = 1) $$
+$$ H(Y | C) = 0.5 \times 1 + 0.5 \times 1 $$
+$$ H(Y | C) = 1 $$
+
+**Information Gain for $C$:**
+
+$$ IG(C) = H(Y) - H(Y | C) $$
+$$ IG(C) = 1 - 1 $$
+$$ IG(C) = 0 $$
+
+### Conclusion
+
+The information gain obtained after splitting on any attribute  in the XOR function is zero. 
+
+### (ii) Significance of This Observation
+
+- Balanced function: For balanced, symmetric functions like the XOR, splitting on any individual attribute does not reduce the entropy of the dataset. This occurs because the splits on any attribute produce subsets with equal numbers of 0s and 1s. 
+
+
+- Independence of output from input Attributes: If the Information Gain for evry attributes at the root is zero, it means that no single attribute provides any information for predicting the output value. 
+
+- Decision Tree Construction: In decision tree, all the attributes with zero Information Gain are not useful for splitting at that point in the tree. This means the decision tree algorithm giving O IG at the root node for all the attribute would not be a useful algorithm.
 
 
 6. Estimate how many functions satisfying Q5 (i) could exist over $n$ attributes, as a function of $n$. 
