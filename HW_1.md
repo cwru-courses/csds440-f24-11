@@ -578,6 +578,67 @@ The information gain obtained after splitting on any attribute  in the XOR funct
 
 **Answer:**
  
+   - For a function $n$ Boolean attributes, the truth table has $2^n$ entries.
+   - we select an attribute to split the table , lets assume that we choose $X_1$ to split on.
+   - We split the truth table into two equal halves based on $X_1$:
+     - Define split $S_0$: Inputs for which $X_1 = 0$, with $|S_0| = 2^{n}/2$ = $2^{n-1}$.
+     - Define split $S_1$: Inputs for which $X_1 = 1$, with $|S_1| = 2^{n}/2$ = $2^{n-1}$.
+ - Total number of boolean functions possible after the first split is all function from domain $2^{n-1}$ to co domain {0,1} whic is equal to $2^{2^{n-1}}$
+
+
+**Now we have to assign Equal Output Distributions of 1 and 0 in both halves in $S_0$ and $S_1$:**
+
+   - The distributions of 1 and 0 in $f$ has to be same for $S_0$ and $S_1$ must be identical so that that output is ballanced in each split.
+   - This requires that the number of ones and zeros in $S_0$ and $S_1$ are the same. Ie half of  $S_0$ should have 1s and rest must be 0.
+   - Flip the sign of output in the other half $S_1$
+  - Total number of boolean functions possible with this split
+
+**Assigning Outputs in $S_0$:**
+
+   - We need to assign $2^{n-1}/2= 2^{n-2}$ ones and $2^{n-1}/2= 2^{n-2}$ zeros to the inputs in $S_0$ to make the 1st half **ballanced**.
+   - The number of ways to select the inputs in $S_0$ map to 1 is:
+     $$
+     N_{S_0} = \binom{2^{n-1}}{2^{n-2}}
+     $$
+     This is because we are selecting $2^{n-2}$ positions out of total out of $2^{n-1}$ in S to assign a value of 1.
+
+**Determining Outputs in $S_1$:**
+
+   - To ensure identical distributions is maintained in the outputs of $S_1$, we can define the outputs in $S_1$ as the **complements** of the outputs in $S_0$.
+  
+     For the corresponding inputs of  $\mathbf{y} \in S_1$ where $\mathbf{y}$ differs from $\mathbf{x}$ only in the attribute  $X_1$ and rest of the attribute remain same:
+     $$
+     f(\mathbf{y}) = 1 - f(\mathbf{x})
+     $$
+     This ensures that the counts of ones and zeros in $S_1$ match those in $S_0$.
+
+ **Total Number of Functions:**
+   - There are also two constant functions where outut y = 0 or y =1 for all input.
+   - Since the outputs of $S_0$  completely determines the  outputs in $S_1$, the total number of such functions is the number of ways we can assign outputs to $S_0$.
+   - Therefore:
+     $$
+     N_{\text{functions}} = \binom{2^{n-1}}{2^{n-2}} +2
+     $$
+     This is the number of ways to select $2^{n-2}$ ones out of $2^{n-1}$ positions in $S_0$.
+
+ **Approximation for Large $n$:**
+
+   - The binomial coefficient $\binom{N}{N/2}$ for large $N$ can be approximated using Stirling's approximation:
+     $$
+     \binom{N}{N/2} \approx \frac{2^N}{\sqrt{\pi N}}
+     $$
+   - Applying this to $N = 2^{n-1}$:
+     $$
+     N_{\text{functions}} \approx \frac{2^{2^{n-1}}}{\sqrt{\pi \cdot 2^{n-1}}} +2
+     $$
+     $$
+     N_{\text{functions}} \approx \frac{2^{2^{n-1}}}{2^{(n-1)/2} \sqrt{\pi}} +2
+     $$ 
+   - For large $n$ as $n$ tend to infinte , the numerator grows much more faster than the  denominator , so:
+     $$
+     N_{\text{functions}} \approx 2^{2^{n-1}} +2  \approx 2^{2^{n-1}}
+     $$
+
 7.	Show that for a continuous attribute $X$, the only split values we need to check to determine a split with max $IG(X)$ lie between points with different labels. (Hint: consider the following setting for $X$: there is a candidate split point $S$ in the middle of $N$ examples with the same label. To the left of $S$ are $n$ such examples. To the left of $N$, there are $L_0$ examples with label negative and the $L_1$ positive, and likewise $(M_0, M_1)$ to the right. Express the information gain of $S$ as a function of $n$. Then show that this function is maximized either when $n=0$ or $n=N$ with all else constant.) (30 points)
 
 **Answer:**
