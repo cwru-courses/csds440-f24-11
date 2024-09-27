@@ -95,7 +95,6 @@ class DecisionTree(Classifier):
             for val, indices in splits.items():
                 child = self._build_tree(X[indices], y[indices], depth + 1)
                 node.children[val] = child
-
         return node
 
 
