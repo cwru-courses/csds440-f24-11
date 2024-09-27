@@ -10,24 +10,46 @@ from sting.data import Feature, parse_c45
 
 import util
 
+class Node:
+    def __init__(self, feature_index=None, threshold=None, children=None, value=None, is_leaf=False):
+        """
+        Initializes a node.
+
+        Args:
+            feature_index: Index of the feature to split on.
+            threshold: Threshold value for continuous features.
+            children: Dictionary of child nodes for nominal features.
+            value: Class label for leaf nodes.
+            is_leaf: True if node is a leaf.
+        """
+        self.feature_index = feature_index
+        self.threshold = threshold
+        self.children = children  # For nominal features, dict of {value: child_node}
+        self.left = None  # For continuous features, left child (<= threshold)
+        self.right = None  # For continuous features, right child (> threshold)
+        self.value = value
+        self.is_leaf = is_leaf
 
 # In Python, the convention for class names is CamelCase, just like Java! However, the convention for method and
 # variable names is lowercase_separated_by_underscores, unlike Java.
 class DecisionTree(Classifier):
     def __init__(self, schema: List[Feature]):
         """
-        This is the class where you will implement your decision tree. At the moment, we have provided some dummy code
-        where this is simply a majority classifier in order to give you an idea of how the interface works. Don't forget
-        to use all the good programming skills you learned in 132 and utilize numpy optimizations wherever possible.
-        Good luck!
+        Initialize the decision tree.
+
+        Args:
+            schema: List of Features.
+            max_depth: Maximum depth of the tree (0 means no limit).
+            criterion: Split criterion ('information_gain' or 'gain_ratio').
+            min_gain_threshold: Minimum gain required to continue splitting.
         """
+        self._schema = schema
+        self.max_depth = max_depth
+        self.criterion = criterion
+        self.min_gain_threshold = min_gain_threshold
+        self.root = None
 
-        warnings.warn('The DecisionTree class is currently running dummy Majority Classifier code. ' +
-                      'Once you start implementing your decision tree delete this warning message.')
-
-        self._schema = schema  # For some models (like a decision tree) it makes sense to keep track of the data schema
-        self._majority_label = 0  # Protected attributes in Python have an underscore prefix
-
+        
     def fit(self, X: np.ndarray, y: np.ndarray, weights: Optional[np.ndarray] = None) -> None:
         """
         This is the method where the training algorithm will run.
