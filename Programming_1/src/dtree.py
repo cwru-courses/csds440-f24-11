@@ -154,6 +154,20 @@ class DecisionTree(Classifier):
 
         return best_feature_index, best_threshold, best_splits, best_gain
     
+    def _split_info_nominal(self, X_feature):
+        total_samples = len(X_feature)
+        _, counts = np.unique(X_feature, return_counts=True)
+        probabilities = counts / total_samples
+        return -np.sum(probabilities * np.log2(probabilities + 1e-9))
+
+    def _split_info_continuous(self, X_feature, threshold):
+        total_samples = len(X_feature)
+        left = X_feature <= threshold
+        right = X_feature > threshold
+        counts = np.array([np.sum(left), np.sum(right)])
+        probabilities = counts / total_samples
+        return -np.sum(probabilities * np.log2(probabilities + 1e-9))
+    
     def predict(self, X: np.ndarray) -> np.ndarray:
         """
         This is the method where the decision tree is evaluated.
@@ -164,8 +178,27 @@ class DecisionTree(Classifier):
         Returns: Predictions of shape (n_examples,), either 0 or 1
         """
 
-        # Returns either all 1s or all 0s, depending on _majority_label.
-        return np.ones(X.shape[0], dtype=int) * self._majority_label
+        predictions = np.array([self._predict_sample(x) for x in X])
+        return predictions
+    
+    def _predict_sample(self, x):
+        node = self.root
+        while not node.is_leaf:
+            feature_index = node.feature_index
+            feature_value = x[feature_index]
+            feature = self._schema[feature_index]
+            if feature.ftype == FeatureType.NOMINAL:
+                if feature_value in node.children:
+                    node = node.children[feature_value]
+                else:
+                    # Handle unseen feature value, use majority class
+                    return node.value
+            else:
+                if feature_value <= node.threshold:
+                    node = node.left
+                else:
+                    node = node.right
+        return node.value
 
     # In Python, instead of getters and setters we have properties: docs.python.org/3/library/functions.html#property
     @property
