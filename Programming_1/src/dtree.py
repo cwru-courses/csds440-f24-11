@@ -49,7 +49,7 @@ class DecisionTree(Classifier):
         self.min_gain_threshold = min_gain_threshold
         self.root = None
 
-        
+
     def fit(self, X: np.ndarray, y: np.ndarray, weights: Optional[np.ndarray] = None) -> None:
         """
         This is the method where the training algorithm will run.
@@ -97,7 +97,63 @@ class DecisionTree(Classifier):
                 node.children[val] = child
         return node
 
+    def _determine_best_split(self, X, y):
+        num_features = X.shape[1]
+        best_gain = -np.inf
+        best_feature_index = None
+        best_threshold = None
+        best_splits = None
+        current_entropy = util.entropy(y)
 
+        for feature_index in range(num_features):
+            feature = self._schema[feature_index]
+            X_feature = X[:, feature_index]
+
+            if feature.ftype == FeatureType.NOMINAL:
+                # Nominal feature
+                values = np.unique(X_feature)
+                splits = {}
+                for val in values:
+                    splits[val] = np.where(X_feature == val)[0]
+
+                criterion_value, gain = self._determine_split_criterion(
+                    y, splits, current_entropy, X_feature=X_feature
+                )
+
+                if criterion_value > best_gain:
+                    best_gain = criterion_value
+                    best_feature_index = feature_index
+                    best_threshold = None
+                    best_splits = splits
+            else:
+                # Continuous feature
+                X_feature_sorted, y_sorted = self._sort_feature(X_feature, y)
+                thresholds = self._find_thresholds(X_feature_sorted, y_sorted)
+
+                if len(thresholds) == 0:
+                    continue
+
+                for threshold in thresholds:
+                    left_indices = np.where(X_feature <= threshold)[0]
+                    right_indices = np.where(X_feature > threshold)[0]
+
+                    if len(left_indices) == 0 or len(right_indices) == 0:
+                        continue
+
+                    splits = {'left': left_indices, 'right': right_indices}
+
+                    criterion_value, gain = self._determine_split_criterion(
+                        y, splits, current_entropy, X_feature=X_feature, threshold=threshold
+                    )
+
+                    if criterion_value > best_gain:
+                        best_gain = criterion_value
+                        best_feature_index = feature_index
+                        best_threshold = threshold
+                        best_splits = splits
+
+        return best_feature_index, best_threshold, best_splits, best_gain
+    
     def predict(self, X: np.ndarray) -> np.ndarray:
         """
         This is the method where the decision tree is evaluated.
