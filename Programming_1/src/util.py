@@ -28,12 +28,23 @@ def count_label_occurrences(y: np.ndarray) -> Tuple[int, int]:
     n_zeros = y.size - n_ones
     return n_zeros, n_ones
 
-
+# Entropy definition method
 def entropy(y):
-    # Entropy definition method
     counts = np.bincount(y)
     probabilities = counts / counts.sum()
     return -np.sum(probabilities * np.log2(probabilities + 1e-9))
+
+# Information Gain Method
+def information_gain( y, splits, current_entropy):
+        total_samples = len(y)
+        weighted_entropy = 0
+        for indices in splits.values():
+            if len(indices) == 0:
+                continue
+            subset_entropy = entropy(y[indices])
+            weighted_entropy += (len(indices) / total_samples) * subset_entropy
+        return current_entropy - weighted_entropy
+
 
 
 def cv_split(
