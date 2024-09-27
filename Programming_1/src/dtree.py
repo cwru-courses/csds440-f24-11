@@ -65,6 +65,40 @@ class DecisionTree(Classifier):
         # try/except blocks (like try/catch blocks) are commonly used to catch expected exceptions and deal with them.
         self.root = self._build_tree(X, y, depth=1)
 
+    def _build_tree(self, X, y, depth):
+        num_samples_per_class = [np.sum(y == c) for c in np.unique(y)]
+        predicted_class = np.argmax(num_samples_per_class)
+        node = Node()
+        node.value = predicted_class
+
+        if (self.max_depth != 0 and depth > self.max_depth) or len(y) < 2:
+            node.is_leaf = True
+            return node
+
+        feature_index, threshold, splits, best_gain = self._determine_best_split(X, y)
+        if feature_index is None:
+        #or best_gain < self.min_gain_threshold:
+            node.is_leaf = True
+            return node
+
+        node.feature_index = feature_index
+        feature = self._schema[feature_index]
+
+        if threshold is not None:
+            node.threshold = threshold
+            left_indices = splits['left']
+            right_indices = splits['right']
+            node.left = self._build_tree(X[left_indices], y[left_indices], depth + 1)
+            node.right = self._build_tree(X[right_indices], y[right_indices], depth + 1)
+        else:
+            node.children = {}
+            for val, indices in splits.items():
+                child = self._build_tree(X[indices], y[indices], depth + 1)
+                node.children[val] = child
+
+        return node
+
+
     def predict(self, X: np.ndarray) -> np.ndarray:
         """
         This is the method where the decision tree is evaluated.
