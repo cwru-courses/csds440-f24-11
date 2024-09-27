@@ -77,13 +77,38 @@ def cv_split(
     np.random.seed(12345)
     random.seed(12345)
 
-    # HINT!
+    n_samples = X.shape[0]
+    indices = np.arange(n_samples)
+    datasets = []
+
     if stratified:
-        n_zeros, n_ones = count_label_occurrences(y)
+        classes, y_indices = np.unique(y, return_inverse=True)
+        class_indices = [np.where(y_indices == i)[0] for i in range(len(classes))]
 
-    warnings.warn('cv_split is not yet implemented. Simply returning the entire dataset as a single fold...')
+        fold_indices = [[] for _ in range(folds)]
+        for cls_indices in class_indices:
+            np.random.shuffle(cls_indices)
+            splits = np.array_split(cls_indices, folds)
+            for i in range(folds):
+                fold_indices[i].extend(splits[i])
 
-    return (X, y, X, y),
+        for i in range(folds):
+            test_idx = np.array(fold_indices[i])
+            train_idx = np.array([idx for idx in indices if idx not in test_idx])
+            X_train, y_train = X[train_idx], y[train_idx]
+            X_test, y_test = X[test_idx], y[test_idx]
+            datasets.append((X_train, y_train, X_test, y_test))
+    else:
+        np.random.shuffle(indices)
+        splits = np.array_split(indices, folds)
+        for i in range(folds):
+            test_idx = splits[i]
+            train_idx = np.hstack([splits[j] for j in range(folds) if j != i])
+            X_train, y_train = X[train_idx], y[train_idx]
+            X_test, y_test = X[test_idx], y[test_idx]
+            datasets.append((X_train, y_train, X_test, y_test))
+
+    return datasets
 
 
 def accuracy(y: np.ndarray, y_hat: np.ndarray) -> float:
