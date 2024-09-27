@@ -29,9 +29,11 @@ def count_label_occurrences(y: np.ndarray) -> Tuple[int, int]:
     return n_zeros, n_ones
 
 
-def entropy():
-    # Implement this on your own!
-    raise NotImplementedError
+def entropy(y):
+    # Entropy definition method
+    counts = np.bincount(y)
+    probabilities = counts / counts.sum()
+    return -np.sum(probabilities * np.log2(probabilities + 1e-9))
 
 
 def cv_split(
