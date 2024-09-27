@@ -154,19 +154,6 @@ class DecisionTree(Classifier):
 
         return best_feature_index, best_threshold, best_splits, best_gain
     
-    def _split_info_nominal(self, X_feature):
-        total_samples = len(X_feature)
-        _, counts = np.unique(X_feature, return_counts=True)
-        probabilities = counts / total_samples
-        return -np.sum(probabilities * np.log2(probabilities + 1e-9))
-
-    def _split_info_continuous(self, X_feature, threshold):
-        total_samples = len(X_feature)
-        left = X_feature <= threshold
-        right = X_feature > threshold
-        counts = np.array([np.sum(left), np.sum(right)])
-        probabilities = counts / total_samples
-        return -np.sum(probabilities * np.log2(probabilities + 1e-9))
     
     def predict(self, X: np.ndarray) -> np.ndarray:
         """

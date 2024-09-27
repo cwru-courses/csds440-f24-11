@@ -45,6 +45,34 @@ def information_gain( y, splits, current_entropy):
             weighted_entropy += (len(indices) / total_samples) * subset_entropy
         return current_entropy - weighted_entropy
 
+def split_info_nominal(X_feature):
+    """Calculate split information for nominal features."""
+    total_samples = len(X_feature)
+    _, counts = np.unique(X_feature, return_counts=True)
+    probabilities = counts / total_samples
+    return -np.sum(probabilities * np.log2(probabilities + 1e-9))  # Adding a small epsilon to avoid log(0)
+
+def split_info_continuous(X_feature, threshold):
+    """Calculate split information for continuous features based on threshold."""
+    total_samples = len(X_feature)
+    left = X_feature <= threshold
+    right = X_feature > threshold
+    counts = np.array([np.sum(left), np.sum(right)])
+    probabilities = counts / total_samples
+    return -np.sum(probabilities * np.log2(probabilities + 1e-9))  # Adding a small epsilon to avoid log(0)
+
+def gain_ratio(y, splits, current_entropy, X_feature=None, threshold=None):
+    """Calculate the gain ratio for a split, taking into account split information."""
+    gain = information_gain(y, splits, current_entropy)
+    
+    # Determine split info based on the feature type (nominal or continuous)
+    if threshold is not None:
+        split_info = split_info_continuous(X_feature, threshold)
+    else:
+        split_info = split_info_nominal(X_feature)
+
+    # Avoid division by zero
+    return gain / split_info if split_info != 0 else 0
 
 
 def cv_split(
