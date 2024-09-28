@@ -28,22 +28,23 @@ def count_label_occurrences(y: np.ndarray) -> Tuple[int, int]:
     n_zeros = y.size - n_ones
     return n_zeros, n_ones
 
-# Entropy definition method
-def entropy(y):
-    counts = np.bincount(y)
-    probabilities = counts / counts.sum()
-    return -np.sum(probabilities * np.log2(probabilities + 1e-9))
 
-# Information Gain Method
-def information_gain( y, splits, current_entropy):
-        total_samples = len(y)
-        weighted_entropy = 0
-        for indices in splits.values():
-            if len(indices) == 0:
-                continue
-            subset_entropy = entropy(y[indices])
-            weighted_entropy += (len(indices) / total_samples) * subset_entropy
-        return current_entropy - weighted_entropy
+def entropy(y):
+    """Calculate the entropy of a label distribution."""
+    unique_labels, counts = np.unique(y, return_counts=True)
+    probabilities = counts / len(y)
+    return -np.sum(probabilities * np.log2(probabilities + 1e-9))  # Adding a small epsilon to avoid log(0)
+
+def information_gain(y, splits, current_entropy):
+    """Calculate the information gain of a split."""
+    total_samples = len(y)
+    weighted_entropy_sum = 0
+    
+    for split_indices in splits.values():
+        split_entropy = entropy(y[split_indices])
+        weighted_entropy_sum += len(split_indices) / total_samples * split_entropy
+    
+    return current_entropy - weighted_entropy_sum
 
 def split_info_nominal(X_feature):
     """Calculate split information for nominal features."""
@@ -105,12 +106,26 @@ def cv_split(
     np.random.seed(12345)
     random.seed(12345)
 
+    """
+    Splits the data into cross-validation folds.
+
+    Args:
+        X: The dataset. The shape is (n_examples, n_features).
+        y: The labels. The shape is (n_examples,)
+        folds: Number of folds to split into.
+        stratified: If True, performs stratified splitting.
+
+    Returns:
+        A list of tuples (X_train, y_train, X_test, y_test) for each fold.
+    """
+    
     n_samples = X.shape[0]
     indices = np.arange(n_samples)
     datasets = []
 
     if stratified:
         classes, y_indices = np.unique(y, return_inverse=True)
+        class_counts = np.bincount(y_indices)
         class_indices = [np.where(y_indices == i)[0] for i in range(len(classes))]
 
         fold_indices = [[] for _ in range(folds)]
