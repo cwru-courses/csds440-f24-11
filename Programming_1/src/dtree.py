@@ -267,6 +267,50 @@ class DecisionTree(Classifier):
                 depths.append(self._get_max_depth(child))
         return 1 + max(depths)
 
+    def get_first_test(self):
+        if self.root.is_leaf:
+            return 'None'
+        feature_index = self.root.feature_index
+        feature = self._schema[feature_index]
+        if feature.ftype == FeatureType.NOMINAL:
+            return feature.name
+        else:
+            return f"{feature.name} <= {self.root.threshold:.4f}"
+
+    def get_second_tests(self):
+        if self.root.is_leaf:
+            return ['None']
+        second_tests = []
+        if self.root.threshold is not None:
+            # Continuous feature
+            if not self.root.left.is_leaf:
+                feature_index = self.root.left.feature_index
+                feature = self._schema[feature_index]
+                if feature.ftype == FeatureType.NOMINAL:
+                    second_tests.append(feature.name)
+                else:
+                    second_tests.append(f"{feature.name} <= {self.root.left.threshold:.4f}")
+            if not self.root.right.is_leaf:
+                feature_index = self.root.right.feature_index
+                feature = self._schema[feature_index]
+                if feature.ftype == FeatureType.NOMINAL:
+                    second_tests.append(feature.name)
+                else:
+                    second_tests.append(f"{feature.name} <= {self.root.right.threshold:.4f}")
+        else:
+            # Nominal feature
+            for child in self.root.children.values():
+                if not child.is_leaf:
+                    feature_index = child.feature_index
+                    feature = self._schema[feature_index]
+                    if feature.ftype == FeatureType.NOMINAL:
+                        second_tests.append(feature.name)
+                    else:
+                        second_tests.append(f"{feature.name} <= {child.threshold:.4f}")
+        return second_tests if second_tests else ['None']
+
+
+
 def evaluate_and_print_metrics(dtree: DecisionTree, X: np.ndarray, y: np.ndarray):
     """
     You will implement this method.
@@ -275,12 +319,16 @@ def evaluate_and_print_metrics(dtree: DecisionTree, X: np.ndarray, y: np.ndarray
 
     y_hat = dtree.predict(X)
     acc = util.accuracy(y, y_hat)
-    print(f'Accuracy:{acc:.2f}')
-    print('Size:', 0)
-    print('Maximum Depth:', 0)
-    print('First Feature:', dtree.schema[0])
-
-    raise NotImplementedError()
+    size = dtree.get_size()
+    max_depth = dtree.get_max_depth()
+    first_test = dtree.get_first_test()
+    second_tests = dtree.get_second_tests()
+    second_tests_str = ', '.join(second_tests)
+    print(f'Accuracy: {acc:.2f}')
+    print('Size:', size)
+    print('Maximum Depth:', max_depth)
+    print('First Test:', first_test)
+    print('Second Tests:', second_tests_str)
 
 
 def dtree(data_path: str, tree_depth_limit: int, use_cross_validation: bool = True, information_gain: bool = True):
