@@ -214,7 +214,7 @@ class DecisionTree(Classifier):
         """
         raise NotImplementedError()
 
-def get_size(self):
+    def get_size(self):
         return self._get_size(self.root)
 
     def _get_size(self, node):
