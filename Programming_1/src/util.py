@@ -29,6 +29,7 @@ def count_label_occurrences(y: np.ndarray) -> Tuple[int, int]:
     return n_zeros, n_ones
 
 
+
 def entropy(y):
     """Calculate the entropy of a label distribution."""
     unique_labels, counts = np.unique(y, return_counts=True)
