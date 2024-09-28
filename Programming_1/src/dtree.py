@@ -206,13 +206,35 @@ class DecisionTree(Classifier):
         """
         return self._schema
 
-    # It is standard practice to prepend helper methods with an underscore "_" to mark them as protected.
-    def _determine_split_criterion(self, X: np.ndarray, y: np.ndarray):
+# In the DecisionTree class (dtree.py)
+
+    def _determine_split_criterion(self, y, splits, current_entropy, X_feature=None, threshold=None):
         """
-        Determine decision tree split criterion. This is just an example to encourage you to use helper methods.
-        Implement this however you like!
+        Determine the split criterion value (information gain or gain ratio) for a given split.
+
+        Args:
+            y: Labels of the current node.
+            splits: Dictionary of splits with indices.
+            current_entropy: Entropy of the current node.
+            X_feature: Feature values (required for gain ratio calculation).
+            threshold: Threshold value for continuous features (required for gain ratio calculation).
+
+        Returns:
+            Tuple containing criterion value and information gain.
         """
-        raise NotImplementedError()
+        # Calculate information gain
+        gain = util.information_gain(y, splits, current_entropy)
+
+        # Determine criterion value based on the selected criterion
+        if self.criterion == 'gain_ratio':
+            # Calculate the gain ratio
+            criterion_value = util.gain_ratio(y, splits, current_entropy, X_feature, threshold)
+        else:
+            # Information gain
+            criterion_value = gain
+
+        return criterion_value, gain
+
 
     def get_size(self):
         return self._get_size(self.root)
