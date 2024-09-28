@@ -1,12 +1,12 @@
 import argparse
-import os.path
+import os
 import warnings
 
 from typing import Optional, List
 
 import numpy as np
 from sting.classifier import Classifier
-from sting.data import Feature, parse_c45
+from sting.data import Feature, FeatureType, parse_c45
 
 import util
 
@@ -33,7 +33,7 @@ class Node:
 # In Python, the convention for class names is CamelCase, just like Java! However, the convention for method and
 # variable names is lowercase_separated_by_underscores, unlike Java.
 class DecisionTree(Classifier):
-    def __init__(self, schema: List[Feature]):
+    def __init__(self, schema: List[Feature], max_depth=0, criterion='information_gain', min_gain_threshold=0):
         """
         Initialize the decision tree.
 
@@ -153,6 +153,7 @@ class DecisionTree(Classifier):
                         best_splits = splits
 
         return best_feature_index, best_threshold, best_splits, best_gain
+
     def _sort_feature(self, X_feature, y):
         sorted_indices = np.argsort(X_feature)
         X_feature_sorted = X_feature[sorted_indices]
@@ -349,25 +350,45 @@ def dtree(data_path: str, tree_depth_limit: int, use_cross_validation: bool = Tr
     root_dir = os.sep.join(path[:-1])
     schema, X, y = parse_c45(file_base, root_dir)
 
+    # Step 1: Remove "image id" feature if it exists in the schema
+    feature_names = [feature.name for feature in schema]
+    if "image_id" in feature_names:
+        image_id_index = feature_names.index("image_id")  # Get index of "image id" feature
+        X = np.delete(X, image_id_index, axis=1)  # Remove the "image id" column from the dataset
+        del schema[image_id_index]  # Remove the "image id" feature from the schema
+
+    # Convert data types for efficiency (optional, can uncomment if needed)
+    # X = X.astype(np.float32)
+    # y = y.astype(np.int8)
+
     if use_cross_validation:
         datasets = util.cv_split(X, y, folds=5, stratified=True)
     else:
-        datasets = ((X, y, X, y),)
+        datasets = [(X, y, X, y)]
+
+    criterion = 'information_gain' if information_gain else 'gain_ratio'
+
+    accuracies = []
 
     for X_train, y_train, X_test, y_test in datasets:
-        decision_tree = DecisionTree(schema)
+        decision_tree = DecisionTree(schema, max_depth=tree_depth_limit, criterion=criterion)
         decision_tree.fit(X_train, y_train)
         evaluate_and_print_metrics(decision_tree, X_test, y_test)
+        y_hat = decision_tree.predict(X_test)
+        acc = util.accuracy(y_test, y_hat)
+        accuracies.append(acc)
 
-    raise NotImplementedError()
+    if use_cross_validation:
+        avg_acc = np.mean(accuracies)
+        print(f'Average Accuracy over {len(datasets)} folds: {avg_acc:.2f}')
+
+    # Return the last decision tree for analysis (optional, depending on use case)
 
 
 if __name__ == '__main__':
     """
-    THIS IS YOUR MAIN FUNCTION. You will implement the evaluation of the program here. We have provided argparse code
-    for you for this assignment, but in the future you may be responsible for doing this yourself.
+    THIS IS YOUR MAIN FUNCTION. You will implement the evaluation of the program here.
     """
-
     # Set up argparse arguments
     parser = argparse.ArgumentParser(description='Run a decision tree algorithm.')
     parser.add_argument('path', metavar='PATH', type=str, help='The path to the data.')
