@@ -214,6 +214,36 @@ class DecisionTree(Classifier):
         """
         raise NotImplementedError()
 
+def get_size(self):
+        return self._get_size(self.root)
+
+    def _get_size(self, node):
+        if node.is_leaf:
+            return 1
+        if node.threshold is not None:
+            # Continuous feature
+            return 1 + self._get_size(node.left) + self._get_size(node.right)
+        else:
+            # Nominal feature
+            size = 1
+            for child in node.children.values():
+                size += self._get_size(child)
+            return size
+
+    def get_max_depth(self):
+        return self._get_max_depth(self.root)
+
+    def _get_max_depth(self, node):
+        if node.is_leaf:
+            return 1
+        depths = []
+        if node.threshold is not None:
+            depths.append(self._get_max_depth(node.left))
+            depths.append(self._get_max_depth(node.right))
+        else:
+            for child in node.children.values():
+                depths.append(self._get_max_depth(child))
+        return 1 + max(depths)
 
 def evaluate_and_print_metrics(dtree: DecisionTree, X: np.ndarray, y: np.ndarray):
     """
