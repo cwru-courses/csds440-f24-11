@@ -153,8 +153,19 @@ class DecisionTree(Classifier):
                         best_splits = splits
 
         return best_feature_index, best_threshold, best_splits, best_gain
-    
-    
+    def _sort_feature(self, X_feature, y):
+        sorted_indices = np.argsort(X_feature)
+        X_feature_sorted = X_feature[sorted_indices]
+        y_sorted = y[sorted_indices]
+        return X_feature_sorted, y_sorted
+
+    def _find_thresholds(self, X_feature_sorted, y_sorted):
+        # Find label changes in sorted labels
+        label_changes = np.where(y_sorted[:-1] != y_sorted[1:])[0]
+        # Calculate thresholds as midpoints between feature values where labels change
+        thresholds = (X_feature_sorted[label_changes] + X_feature_sorted[label_changes + 1]) / 2.0
+        return np.unique(thresholds)    
+
     def predict(self, X: np.ndarray) -> np.ndarray:
         """
         This is the method where the decision tree is evaluated.
