@@ -9,6 +9,23 @@ When working as a group, only one answer to each question is needed unless other
 
 ## Answer:
 
+I have implemented the program in the Jupyter notebook at the location **"csds440-f24-11\Programming_1\notebooks\HW2.ipynb"**.
+
+### The Program does the following:
+- It samples a set of $N$ points from $(−1,1)^2$. Label the points using the classifier $y=sign(0.5x_1+0.5x_2)$. 
+- Generate datasets from your program and use your ID3 code from Programming 1 to learn trees on this data
+- Plot a graph where the $x$-axis is the value of $N$, over $N={50, 100, 500, 1000, 5000}$, and the $y$-axis is the depth of the tree learned by ID3.
+
+![Decision Tree Depth vs N](images/image.png)
+
+### Explanation of My Observations:
+
+- The initial splits capture most of the decision structure early on, causing rapid growth in depth for small \( N \).
+  
+- For larger \( N \), additional data provides diminishing returns in terms of the information required to refine the boundary, leading to slower growth in depth.
+  
+- Overfitting prevention mechanisms and the nature of the data (e.g., linearly separable) contribute to a saturation point, where the tree stops growing significantly deeper.
+
 
 
 2.	Show the decision boundaries learned by ID3 in Q1 for $N=50$ and $N=5000$ by generating an independent test set of size 100,000, plotting all the points and coloring them according to the predicted label from the $N=50$ and $N=5000$ trees. Explain what you see relative to the true decision boundary. What does this tell you about the suitability of trees for such datasets? (20 points)
