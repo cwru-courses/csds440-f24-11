@@ -52,6 +52,17 @@ When working as a group, only one answer to each question is needed unless other
 
 ### Answer: 
 
+- Let’s assume D = data set with n being large
+- In each iteration i, the dataset D is randomly partitioned into two disjoint subsets Ai and Bi, each of size n/2 , n/2.
+- Each data point in D is likely to appear several times for both training and testing sets. Let say D=1,2,3,4,5,6,7,8,9,10. In first iteration A1 = 1,3,5,7,9 and   B1 = 2,4,6,8,10 both are disjoint. in iteration 2, A2 = 1,3,5,7,2 and B2 = 9,4,6,8,10 both are disjoint, A3 = 4,3,5,7,2 and B3 = 9,1,6,8,10 As we can see in each iteration most of training and testing data is same.
+- The error estimate is dependent because the shared data points.
+- 	Let us say Error estimate in each iteration Ej, and average error is sum(Ej) over iterations/N, where N iterations as given in question.
+- Since, the Bi the training points is subset of D, the Bi is dependent on training points used in other iterations.
+- The error estimate Ej will be underestimated because it is not independent variable because of data overlapping.
+- Also, the training data is very less (n/2) which will affect the performance of model. If we train on less amounts of data there might be a chance that some examples it may not predict well.
+-	overlapping data across iterations can lead to biased and overly optimistic estimates of the model's performance.
+-	Increasing the N iterations ca reduce the variance and it can not eliminate the bias which is from the data dependency. For practical datasets bias and dependency remain significantly same. It won’t reduce over iterations.
+-	So, given methodology is not very sounds. Why because it underestimates the Error rate Ej which will underestimate the variance also. Also misleading inference statistically because of the overlapping of data across the iterations.
 
 
 7.	Two classifiers A and B are evaluated on a sample with P positive examples and N negative examples and their ROC graphs are plotted. It is found that the ROC of A dominates that of B, i.e. for every FP rate, TP rate(A) $\geq$ TP rate(B). What is the relationship between the precision-recall graphs of A and B on the same sample? (10 points)
