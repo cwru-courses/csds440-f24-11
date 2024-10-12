@@ -55,14 +55,63 @@ I have implemented the program in the Jupyter notebook at the location **"csds44
 |T	|T	|T	|T	|1	|81/256|
 
 ### Answer:
+- I have used the programming code from programming assignment 1 
+- I have implemented the program in the Jupyter notebook at the location **"csds440-f24-11\Programming_1\notebooks\HW2.ipynb"**.
+
+![alt text](image-2.png)
+
+**Explaination:-**
+- For all the attributes, each split on an attribute leads to a balanced distribution of the output, resulting in an information gain of 0 for all attributes. Therefore, we cannot split on any attribute
+
 
 4.	Now from the same table, find another split using "weighted" information gain. In this case, instead of counting the examples for each label in the information gain calculation, add the numbers in the Weight column for each example. You can use your code/a numerical package like Matlab to do this, and just report the final result. (10 points)
 
 ### Answer:
+- I have used the programming code from programming assignment 1 
+- I have implemented the program in the Jupyter notebook at the location **"csds440-f24-11\Programming_1\notebooks\HW2.ipynb"**.
+
+![alt text](image-3.png)
+**Explaination:-**
+- For the attribute A1, A2 and A3 we get the "weighted" information gain values as 0.0343, and for attribute A4 we get 0.
+  
 
 5.	There is a difference between the splits for Q3 and Q4. Can you explain what is happening? (10 points)
 
 ### Answer:
+**Explanation of the Difference Between Splits:-**
+
+
+
+
+ **Weighted Entropy:**
+
+The weighted entropy formula takes into account the weights associated with each example. Instead of counting the examples for each class, we have to sum the weights of each examples.
+
+$$
+H_{weighted}(Y) = - \sum_{i=1}^{k} \left( \frac{W_i}{W_{total}} \right) \log_2 \left( \frac{W_i}{W_{total}} \right)
+$$
+
+
+ **Weighted Information Gain:**
+
+Information gain is calculated as the difference between the entropy before the split and the weighted entropy after the split.
+
+$$
+IG_{weighted} = H_{weighted}(Y) - \sum_{j=1}^{m} \left( \frac{W_j}{W_{total}} \right) H_{weighted}(Y_j)
+$$
+
+**unweighted case:-**
+- In the unweighted case, each example contributes equally to the calculation of entropy and information gain.
+
+- For a balanced Boolean function, where there is an equal number of positive and negative examples in every split for each attribute (as given in the dataset), the information gain is zero for all attributes.
+
+ **weighted case**:- 
+- Examples with higher weights have higher contribution towards the entropy and information gain. If a perticular class in a split has a higher total weight, the splits try to reducing uncertainty around  higher-weighted class examples.
+
+- Since the split tries to minimize the uncertainty for examples with higher weights, attributes which separates high-weighted examples from the rest will have a greater information gain. As a result, the split on attributes happens differently when compared to the unweighted case, prioritizing those features that provide better splits for the more "important" examples (those with higher weights).
+
+-  In the weighted case, even if a dataset is balanced as per the class counts ie equal number of positive and negative examples in every split, if certain examples  in the dataset are weighted higher, the decision tree will splits in such a way to reduce entropy for those particular weighted examples.
+
 
 
 6.	Person X wishes to evaluate the performance of a learning algorithm on a set of $n$ examples ( $n$ large). X employs the following strategy:  Divide the $n$ examples randomly into two equal-sized disjoint sets, A and B. Then train the algorithm on A and evaluate it on B. Repeat the previous two steps for $N$ iterations ( $N$ large), then average the $N$ performance measures obtained. Is this sound empirical methodology? Explain why or why not. (10 points)
