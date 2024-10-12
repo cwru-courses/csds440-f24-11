@@ -309,9 +309,11 @@ $$
 ### Answer:
 
 To say a function $f(x)$ is said to be monotonically increasing
+
 $$
 \text{if }x_1 > x_2 \implies f(x_1) \geq f(x_2) \text{ for all x}
 $$
+
 and the ROC is said to be monotonically increasing,if the following is true:-
 
 $$
