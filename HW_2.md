@@ -365,6 +365,85 @@ $$
 9.	Prove that the ROC graph of a random classifier that ignores attributes and guesses each class with equal probability is a diagonal line. (10 points)
 
 ### Answer: 
+
+To random classification the predicting p(positive) =0.5 and p(negative)=0.5 . It acts as a random variable S with values uniformly distributed between 0 and 1 for each instance. We can compute the TPR,FPR at different values of $t$ between 0 and 1.
+
+The probability density function (PDF) of $S$ is:
+
+$$
+f_S(s) = \begin{cases}
+1 & \text{if } 0 \leq s \leq 1 \\
+0 & \text{otherwise}
+\end{cases}
+$$
+
+The cumulative distribution function (CDF) of $S$ is:
+
+$$
+F_S(s) = P(S \leq s) = \begin{cases}
+0 & \text{if } s < 0 \\
+s & \text{if } 0 \leq s \leq 1 \\
+1 & \text{if } s > 1
+\end{cases}
+$$
+
+Calculate $P(\text{score} \geq t \mid \text{positive})$:
+
+
+for positive instances also score distribution is same. So we have
+
+$$
+P(\text{score} \geq t \mid \text{positive}) = P(S \geq t)
+$$
+
+ByUsing the CDF of $S$
+
+$$
+P(S \geq t) = 1 - P(S < t) = 1 - F_S(t)
+$$
+
+Therefore:
+
+$$
+P(S \geq t) = 1 - t \quad \text{(since } F_S(t) = t \text{ for } t \in [0, 1])
+$$
+
+Calculate $P(\text{score} \geq t \mid \text{negative})$:
+
+Similarly, for negative instances:
+
+$$
+P(\text{score} \geq t \mid \text{negative}) = P(S \geq t) = 1 - t
+$$
+
+
+Therefore, for both positive and negative instances
+
+$$
+P(\text{score} \geq t \mid \text{positive}) = P(\text{score} \geq t \mid \text{negative}) = 1 - t
+$$
+
+Probability Distributions:
+
+- For positive 
+
+  $P(\text{score} \geq t \mid \text{positive}) = 1 - t$
+
+- For negative 
+
+  $P(\text{score} \geq t \mid \text{negative}) = 1 - t$
+
+-  because the probability that a random score exceeds $t$ is $1 - t$ and scores are uniformly distributed.
+
+
+
+   At any threshold $t$:
+     - $\text{TPR} = P(\text{predict positive} \mid \text{positive}) = 1 - t$
+     - $\text{FPR} = P(\text{predict positive} \mid \text{negative}) = 1 - t$
+   
+   $\text{it means TPR} = \text{FPR for all points on the graph.} $
+   
+Because both are equal for all $t$, the points in x and y axis will be same and the will be a straight line and it will be be diagonal becasue the slope of line is 1 because TPR/FPR=1 and the graph line starts with (0,0) point.
  
 
 
