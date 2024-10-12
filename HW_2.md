@@ -31,6 +31,36 @@ I have implemented the program in the Jupyter notebook at the location **"csds44
 2.	Show the decision boundaries learned by ID3 in Q1 for $N=50$ and $N=5000$ by generating an independent test set of size 100,000, plotting all the points and coloring them according to the predicted label from the $N=50$ and $N=5000$ trees. Explain what you see relative to the true decision boundary. What does this tell you about the suitability of trees for such datasets? (20 points)
 
 ## Answer:
+. *Learning with ID3*: It uses the ID3 decision tree algorithm that was implimentede in Programing Assignment 1 to learn trees on the generated datasets .
+
+3. *Varying Dataset Sizes*: It produces a plots where the x-axis has the number of points $N$ (for $N = \{50, 100, 500, 1000, 5000\}$) and the y-axis has the depth of the decision tree .
+
+4. *Plotting Decision Boundaries*: It generates an  test set of 100,000 independent points and plots how the trees trained on $N=50$ and $N=5000$ training points produces decision boundaries compared to the true decision boundary.
+![Plotting Decision Boundaries](images/image-1.png)
+### Explanation of Results:
+
+#### Decision Boundary for $N = 50$:
+- When training with only of 50 examples,the decision boundaries created by the tree is axis alligned staircase like structure that approximates the true linear boundary. 
+
+- The tree *underfits* the data because it doesn't have enough data points to create precise splits.
+
+#### Decision Boundary for $N = 5000$:
+-The decision tree has enough data to create finer splits With 5000 examples. Because of this, it provides a much better approximationof the true decision boundary.
+- However, the boundary is like a "staircase" pattern due to the axis-aligned nature of the splits. The tree cannot produce a perfectly diagonal boundary, despite the larger dataset,  
+
+## Suitability of Decision Trees for Such Datasets:
+
+#### 1. *Axis-Aligned Splits Lead to the "Staircase" Effect*
+   - *Axis-aligned splits* It creates decision boundaries which are parallel to the feature axes like rectanges, because of which its difficult to learn decision boundaries which are not axis alligned.
+  
+
+#### 2. *Poor Generalization, Especially with Smaller Datasets*
+   - For small datasets, decision trees doesnt *generalize* well to unseen data because of the few available splits  oversimplifies the decision boundary.
+
+
+#### 3. *Scaling with Data Size*
+   - With the large training set the decision tree improves its boundary and approximates the actual boundary  but still it has **axis-aligned splits**, making it hard to accurately capture linear boundaries .
+   - With Larger datasets  underfitting is reduced, but it still suffer from **overfitting**, trying to fit the noise or small variations in the data.
 
 
 3.	Consider the following table of examples over Boolean attributes, annotated with the target concept's label. Ignore the "Weight" column and use information gain to find the first split in a decision tree (remember that ID3 stops if there is no information gain). You can use your programming code/a numerical package like Matlab to do this, and just report the final result.(10 points)
