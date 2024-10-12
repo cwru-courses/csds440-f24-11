@@ -91,6 +91,105 @@ I have implemented the program in the Jupyter notebook at the location **"csds44
 
 ### Answer:
 
+To say a function $f(x)$ is said to be monotonically increasing
+$$
+\text{if }x_1 > x_2 \implies f(x_1) \geq f(x_2) \text{ for all x}
+$$
+and the ROC is said to be monotonically increasing,if the following is true:-
+
+$$
+\text{FPR}(t_2) > \text{FPR}(t_1) \implies \text{TPR}(t_2) \geq \text{TPR}(t_1)
+$$
+
+Where:
+
+$$
+\text{True Positive Rate (TPR)}(t) = \frac{\text{True Positives count at threshold } t}{\text{Actual Positivescount}} = \frac{\text{TP}(t)}{P}
+$$
+
+$$
+\text{False Positive Rate (FPR)}(t) = \frac{\text{False Positives count at threshold } t}{\text{Actual Negatives count}} = \frac{\text{FP}(t)}{N}
+$$
+
+- $\text{TP}(t)$ and $\text{FP}(t)$ are the no. of true positives and false negatives at threshold $t$ repectively.
+- $P$ and $N$ are the total no. of actual positive and total no. of actual negatives instances (a constant) respectively.
+
+
+#### To Prove $\text{FPR}(t_2) > \text{FPR}(t_1) \implies t_2 < t_1$
+
+A classifier gives a score to each instance. We classify an instance as positive if its score is higher than the threshold $t$.
+
+If we are desreasing the thresold t it means we will get more instances for both "positive" and "negative".
+
+Given that $\text{FPR}(t_2) > \text{FPR}(t_1)$, it must be that $\text{FP}(t_2) > \text{FP}(t_1)$ as $P$ and $N$ are constants, which implies more negative instances are classified as positive at $t_2$.
+
+$$
+\text{FP}(t_2) \geq \text{FP}(t_1) \implies t_2 < t_1
+$$
+
+Divide By N 
+
+$$
+\frac{\text{FP}(t_2)}{N} \geq \frac{\text{FP}(t_1)}{N} \implies t_2 < t_1
+$$
+
+$$
+\text{FPR}(t_2) > \text{FPR}(t_1) \implies t_2 < t_1
+$$
+
+So, the one and only way for $\text{FPR}(t_2) > \text{FPR}(t_1)$ is if $t_2 < t_1$.
+
+---
+
+#### To Prove $t_2 < t_1 \implies \text{TPR}(t_2) \geq \text{TPR}(t_1)$
+
+Similarly Lowering the threshold $t$ increases the number of positive instances correctly classified as positive.
+
+
+$$
+\text{if } t_2 < t_1 \implies \text{TP}(t_2) \geq \text{TP}(t_1)
+$$
+
+Divide by P 
+
+$$
+\text{TPR}(t_2) = \frac{\text{TP}(t_2)}{P} \geq \frac{\text{TP}(t_1)}{P} = \text{TPR}(t_1)
+$$
+
+$$
+\text{if } t_2 < t_1 \implies \text{TPR}(t_2) \geq \text{TPR}(t_1)
+$$
+
+So, lowering the threshold ($t_2 < t_1$) implies that $\text{TPR}(t_2) \geq \text{TPR}(t_1)$.
+
+---
+
+Using the implications we have established:
+
+$$
+\text{FPR}(t_2) > \text{FPR}(t_1) \implies t_2 < t_1
+$$
+
+and
+
+$$
+t_2 < t_1 \implies \text{TPR}(t_2) \geq \text{TPR}(t_1)
+$$
+
+According to the transitive property :
+
+$$
+\text{FPR}(t_2) > \text{FPR}(t_1) \implies \text{TPR}(t_2) \geq \text{TPR}(t_1)
+$$
+
+Since ROC curve has FPR on the X-axis and TPR on the Y-axis and we have proven the following
+
+$$
+\text{FPR}(t_2) > \text{FPR}(t_1) \implies \text{TPR}(t_2) \geq \text{TPR}(t_1)
+$$
+ 
+ We can say the ROC curve is monotonically increasing with respect to the False Positive Rate.
+
 
 
 9.	Prove that the ROC graph of a random classifier that ignores attributes and guesses each class with equal probability is a diagonal line. (10 points)
