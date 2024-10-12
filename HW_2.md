@@ -135,6 +135,126 @@ $$
 7.	Two classifiers A and B are evaluated on a sample with P positive examples and N negative examples and their ROC graphs are plotted. It is found that the ROC of A dominates that of B, i.e. for every FP rate, TP rate(A) $\geq$ TP rate(B). What is the relationship between the precision-recall graphs of A and B on the same sample? (10 points)
 
 ### Answer: 
+### Answer: 
+Given Two Classifiers **$A$ and $B$:**,The number of positive examples is denoted by $P$ (all positives) and the number of negative examples is denoted as $N$ (all negatives).
+
+**ROC Curve has:**
+
+- The X-axis represents the **False Positive Rate (FPR)**.
+- The Y-axis represents the **True Positive Rate (TPR)**.
+
+
+
+**Assumption:** Given that ROC curve of classifier $A$ dominates that of classifier $B$, meaning the ROC curve of $A$ lies above that of $B$.
+
+- Therefore, for any given $FPR$, we have:  
+  $TPR_A \geq TPR_B$.
+
+---
+
+### **Diagram of ROC Curve for Classifiers $A$ and $B$:**
+
+The diagram shows the relationship between $FPR$ and $TPR$ for both classifiers $A$ and $B$:
+![alt text](images/ROC.jpg)
+
+- For any given $FPR$, $FPR_A \leq FPR_B$ and $TPR_A \geq TPR_B$.
+- Alternatively, for any given $TPR$, $FPR_A \leq FPR_B$.
+
+---
+
+
+
+**We know that Precision is given by:**  
+$$
+\text{Precision} (P) = \frac{TP}{TP + FP}
+$$
+where:
+- $TP$ is the number of true positives.
+- $FP$ is the number of false positives.
+
+
+### **Writing Precision as a function of TPR and FPR:**
+
+**Express $TP$ in terms of $TPR$ and $P$:**  
+We know that:
+$$
+TPR = \frac{TP}{\text{All Positives}} = \frac{TP}{P} \quad \text{(where $P$ is the total number of positives)}
+$$
+Thus, solving for $TP$:
+$$
+TP = TPR \times P \quad \text{(Equation 1)}
+$$
+
+**Express $FP$ in terms of $FPR$ and $N$:**  
+Similarly, we know that:
+$$
+FPR = \frac{FP}{\text{All Negatives}} = \frac{FP}{N} \quad \text{(where $N$ is the total number of negatives)}
+$$
+Thus, solving for $FP$:
+$$
+FP = FPR \times N \quad \text{(Equation 2)}
+$$
+
+**Substituting into the Precision Formula:**  
+Using Equations (1) and (2), we substitute $TP$ and $FP$ into the Precision formula:
+$$
+P = \frac{TP}{TP + FP} = \frac{TPR \times P}{(TPR \times P) + (FPR \times N)} \quad \text{(Equation 3)}
+$$
+
+---
+
+**For a Precision-Recall Curve:**
+
+- The X-axis represents Recall (which is the same as $TPR$).
+- The Y-axis represents Precision $P$.
+
+From the previous step, we have the expression for Precision as a function of $TPR$ and $FPR$. Now, we aim to compare the precision of classifiers $A$ and $B$.
+
+
+
+ **Comparing Precision of Classifiers $A$ and $B$:**
+
+ ![alt text](images/PVSRecall.jpg)
+
+**Assume $TPR_A = TPR_B = TPR'$ and compare $FPR_A$ and $FPR_B$:**  
+Given that classifier $A$'s ROC curve dominates that of classifier $B$, we know:
+If $TPR_A = TPR_B = TPR'$, then $FPR_A \leq FPR_B$.
+
+Since $FPR_A \leq FPR_B$, we can write:
+$$
+N \times FPR_A \leq N \times FPR_B \quad (\text{multiplying by $N$}).
+$$
+
+**Add $TPR' \times P$ to both sides of the denominator:**  
+Now, adding $TPR' \times P$ (which corresponds to the true positives) to both sides in the denominator:
+$$
+P \times TPR' + N \times FPR_A \leq P \times TPR' + N \times FPR_B.
+$$
+
+Reciprocating and multiplying both sides by $P \times TPR'$:
+$$
+\frac{P \times TPR'}{P \times TPR' + N \times FPR_A} \geq \frac{P \times TPR'}{P \times TPR' + N \times FPR_B}.
+$$
+$$
+P_A \geq P_B
+$$
+
+This shows that the precision of classifier $A$ is greater than or equal to that of classifier $B$.
+
+---
+
+### **Conclusion:**
+
+Based on the analysis above, we can conclude that:
+$$
+P_A \geq P_B
+$$
+Thus, the Precision of classifier $A$ is greater than or equal to the Precision of classifier $B$, denoted as:
+$$
+\text{Precision}_A \geq \text{Precision}_B
+$$
+
+
 
 
 8.	Prove that an ROC graph must be monotonically increasing. (10 points)
