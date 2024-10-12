@@ -58,7 +58,8 @@ I have implemented the program in the Jupyter notebook at the location **"csds44
 - I have used the programming code from programming assignment 1 
 - I have implemented the program in the Jupyter notebook at the location **"csds440-f24-11\Programming_1\notebooks\HW2.ipynb"**.
 
-![alt text](image-2.png)
+![alt text](images/image-2.png)
+
 
 **Explaination:-**
 - For all the attributes, each split on an attribute leads to a balanced distribution of the output, resulting in an information gain of 0 for all attributes. Therefore, we cannot split on any attribute
@@ -70,7 +71,7 @@ I have implemented the program in the Jupyter notebook at the location **"csds44
 - I have used the programming code from programming assignment 1 
 - I have implemented the program in the Jupyter notebook at the location **"csds440-f24-11\Programming_1\notebooks\HW2.ipynb"**.
 
-![alt text](image-3.png)
+![alt text](images/image-3.png)
 **Explaination:-**
 - For the attribute A1, A2 and A3 we get the "weighted" information gain values as 0.0343, and for attribute A4 we get 0.
   
