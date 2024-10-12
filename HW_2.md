@@ -31,7 +31,13 @@ I have implemented the program in the Jupyter notebook at the location **"csds44
 2.	Show the decision boundaries learned by ID3 in Q1 for $N=50$ and $N=5000$ by generating an independent test set of size 100,000, plotting all the points and coloring them according to the predicted label from the $N=50$ and $N=5000$ trees. Explain what you see relative to the true decision boundary. What does this tell you about the suitability of trees for such datasets? (20 points)
 
 ## Answer:
-. *Learning with ID3*: It uses the ID3 decision tree algorithm that was implimentede in Programing Assignment 1 to learn trees on the generated datasets .
+I have implemented the program in the Jupyter notebook at the location *"csds440-f24-11\Programming_1\notebooks\HW2.ipynb"*.
+
+## The Program Implements the Following:
+
+1. *Sampling Data*: It samples $N$ points from the set  $(-1, 1)^2$ and lproduces labels these points using the classifier $y = \text{sign}(0.5x_1 + 0.5x_2)$.
+
+2. *Learning with ID3*: It uses the ID3 decision tree algorithm that was implimentede in Programing Assignment 1 to learn trees on the generated datasets .
 
 3. *Varying Dataset Sizes*: It produces a plots where the x-axis has the number of points $N$ (for $N = \{50, 100, 500, 1000, 5000\}$) and the y-axis has the depth of the decision tree .
 
