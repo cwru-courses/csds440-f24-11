@@ -31,6 +31,42 @@ I have implemented the program in the Jupyter notebook at the location **"csds44
 2.	Show the decision boundaries learned by ID3 in Q1 for $N=50$ and $N=5000$ by generating an independent test set of size 100,000, plotting all the points and coloring them according to the predicted label from the $N=50$ and $N=5000$ trees. Explain what you see relative to the true decision boundary. What does this tell you about the suitability of trees for such datasets? (20 points)
 
 ## Answer:
+I have implemented the program in the Jupyter notebook at the location *"csds440-f24-11\Programming_1\notebooks\HW2.ipynb"*.
+
+## The Program Implements the Following:
+
+1. *Sampling Data*: It samples $N$ points from the set  $(-1, 1)^2$ and lproduces labels these points using the classifier $y = \text{sign}(0.5x_1 + 0.5x_2)$.
+
+2. *Learning with ID3*: It uses the ID3 decision tree algorithm that was implimentede in Programing Assignment 1 to learn trees on the generated datasets .
+
+3. *Varying Dataset Sizes*: It produces a plots where the x-axis has the number of points $N$ (for $N = \{50, 100, 500, 1000, 5000\}$) and the y-axis has the depth of the decision tree .
+
+4. *Plotting Decision Boundaries*: It generates an  test set of 100,000 independent points and plots how the trees trained on $N=50$ and $N=5000$ training points produces decision boundaries compared to the true decision boundary.
+![Plotting Decision Boundaries](images/image-1.png)
+### Explanation of Results:
+
+#### Decision Boundary for $N = 50$:
+- When training with only of 50 examples,the decision boundaries created by the tree is axis alligned staircase like structure that approximates the true linear boundary. 
+
+- The tree *underfits* the data because it doesn't have enough data points to create precise splits.
+
+#### Decision Boundary for $N = 5000$:
+-The decision tree has enough data to create finer splits With 5000 examples. Because of this, it provides a much better approximationof the true decision boundary.
+- However, the boundary is like a "staircase" pattern due to the axis-aligned nature of the splits. The tree cannot produce a perfectly diagonal boundary, despite the larger dataset,  
+
+## Suitability of Decision Trees for Such Datasets:
+
+#### 1. *Axis-Aligned Splits Lead to the "Staircase" Effect*
+   - *Axis-aligned splits* It creates decision boundaries which are parallel to the feature axes like rectanges, because of which its difficult to learn decision boundaries which are not axis alligned.
+  
+
+#### 2. *Poor Generalization, Especially with Smaller Datasets*
+   - For small datasets, decision trees doesnt *generalize* well to unseen data because of the few available splits  oversimplifies the decision boundary.
+
+
+#### 3. *Scaling with Data Size*
+   - With the large training set the decision tree improves its boundary and approximates the actual boundary  but still it has **axis-aligned splits**, making it hard to accurately capture linear boundaries .
+   - With Larger datasets  underfitting is reduced, but it still suffer from **overfitting**, trying to fit the noise or small variations in the data.
 
 
 3.	Consider the following table of examples over Boolean attributes, annotated with the target concept's label. Ignore the "Weight" column and use information gain to find the first split in a decision tree (remember that ID3 stops if there is no information gain). You can use your programming code/a numerical package like Matlab to do this, and just report the final result.(10 points)
@@ -58,7 +94,8 @@ I have implemented the program in the Jupyter notebook at the location **"csds44
 - I have used the programming code from programming assignment 1 
 - I have implemented the program in the Jupyter notebook at the location **"csds440-f24-11\Programming_1\notebooks\HW2.ipynb"**.
 
-![alt text](image-2.png)
+![alt text](images/image-2.png)
+
 
 **Explaination:-**
 - For all the attributes, each split on an attribute leads to a balanced distribution of the output, resulting in an information gain of 0 for all attributes. Therefore, we cannot split on any attribute
@@ -70,7 +107,7 @@ I have implemented the program in the Jupyter notebook at the location **"csds44
 - I have used the programming code from programming assignment 1 
 - I have implemented the program in the Jupyter notebook at the location **"csds440-f24-11\Programming_1\notebooks\HW2.ipynb"**.
 
-![alt text](image-3.png)
+![alt text](images/image-3.png)
 **Explaination:-**
 - For the attribute A1, A2 and A3 we get the "weighted" information gain values as 0.0343, and for attribute A4 we get 0.
   
@@ -134,6 +171,143 @@ $$
 7.	Two classifiers A and B are evaluated on a sample with P positive examples and N negative examples and their ROC graphs are plotted. It is found that the ROC of A dominates that of B, i.e. for every FP rate, TP rate(A) $\geq$ TP rate(B). What is the relationship between the precision-recall graphs of A and B on the same sample? (10 points)
 
 ### Answer: 
+Given Two Classifiers **$A$ and $B$:**,The number of positive examples is denoted by $P$ (all positives) and the number of negative examples is denoted as $N$ (all negatives).
+
+**ROC Curve has:**
+
+- The X-axis represents the **False Positive Rate (FPR)**.
+- The Y-axis represents the **True Positive Rate (TPR)**.
+
+
+
+**Assumption:** Given that ROC curve of classifier $A$ dominates that of classifier $B$, meaning the ROC curve of $A$ lies above that of $B$.
+
+- Therefore, for any given $FPR$, we have:  
+  $TPR_A \geq TPR_B$.
+
+---
+
+### **Diagram of ROC Curve for Classifiers $A$ and $B$:**
+
+The diagram shows the relationship between $FPR$ and $TPR$ for both classifiers $A$ and $B$:
+![alt text](images/ROC.jpg)
+
+- For any given $FPR$, $FPR_A \leq FPR_B$ and $TPR_A \geq TPR_B$.
+- Alternatively, for any given $TPR$, $FPR_A \leq FPR_B$.
+
+---
+
+
+
+**We know that Precision is given by:**  
+
+$$
+\text{Precision} (P) = \frac{TP}{TP + FP}
+$$
+
+where:
+- $TP$ is the number of true positives.
+- $FP$ is the number of false positives.
+
+
+### **Writing Precision as a function of TPR and FPR:**
+
+**Express $TP$ in terms of $TPR$ and $P$:**  
+We know that:
+
+$$
+TPR = \frac{TP}{\text{All Positives}} = \frac{TP}{P} \quad \text{(where $P$ is the total number of positives)}
+$$
+
+Thus, solving for $TP$:
+
+$$
+TP = TPR \times P \quad \text{(Equation 1)}
+$$
+
+**Express $FP$ in terms of $FPR$ and $N$:**  
+Similarly, we know that:
+
+$$
+FPR = \frac{FP}{\text{All Negatives}} = \frac{FP}{N} \quad \text{(where $N$ is the total number of negatives)}
+$$
+
+Thus, solving for $FP$:
+
+$$
+FP = FPR \times N \quad \text{(Equation 2)}
+$$
+
+**Substituting into the Precision Formula:**  
+Using Equations (1) and (2), we substitute $TP$ and $FP$ into the Precision formula:
+
+$$
+P = \frac{TP}{TP + FP} = \frac{TPR \times P}{(TPR \times P) + (FPR \times N)} \quad \text{(Equation 3)}
+$$
+
+---
+
+**For a Precision-Recall Curve:**
+
+- The X-axis represents Recall (which is the same as $TPR$).
+- The Y-axis represents Precision $P$.
+
+From the previous step, we have the expression for Precision as a function of $TPR$ and $FPR$. Now, we aim to compare the precision of classifiers $A$ and $B$.
+
+
+
+ **Comparing Precision of Classifiers $A$ and $B$:**
+
+ ![alt text](images/PVSRecall.jpg)
+
+**Assume $TPR_A = TPR_B = TPR'$ and compare $FPR_A$ and $FPR_B$:**  
+Given that classifier $A$'s ROC curve dominates that of classifier $B$, we know:
+If 
+
+$TPR_A = TPR_B = TPR'$, then $FPR_A \leq FPR_B$.
+
+Since $FPR_A \leq FPR_B$, we can write:
+
+$$
+N \times FPR_A \leq N \times FPR_B \quad (\text{multiplying by $N$}).
+$$
+
+**Add $TPR' \times P$ to both sides of the denominator:**  
+Now, adding $TPR' \times P$ (which corresponds to the true positives) to both sides in the denominator:
+
+$$
+P \times TPR' + N \times FPR_A \leq P \times TPR' + N \times FPR_B.
+$$
+
+Reciprocating and multiplying both sides by $P \times TPR'$:
+
+$$
+\frac{P \times TPR'}{P \times TPR' + N \times FPR_A} \geq \frac{P \times TPR'}{P \times TPR' + N \times FPR_B}.
+$$
+
+$$
+P_A \geq P_B
+$$
+
+This shows that the precision of classifier $A$ is greater than or equal to that of classifier $B$.
+
+---
+
+### **Conclusion:**
+
+Based on the analysis above, we can conclude that:
+
+$$
+P_A \geq P_B
+$$
+
+Thus, the Precision of classifier $A$ is greater than or equal to the Precision of classifier $B$, denoted as:
+
+$$
+\text{Precision}_A \geq \text{Precision}_B
+$$
+
+
 
 
 8.	Prove that an ROC graph must be monotonically increasing. (10 points)
@@ -141,9 +315,11 @@ $$
 ### Answer:
 
 To say a function $f(x)$ is said to be monotonically increasing
+
 $$
 \text{if }x_1 > x_2 \implies f(x_1) \geq f(x_2) \text{ for all x}
 $$
+
 and the ROC is said to be monotonically increasing,if the following is true:-
 
 $$
@@ -244,6 +420,85 @@ $$
 9.	Prove that the ROC graph of a random classifier that ignores attributes and guesses each class with equal probability is a diagonal line. (10 points)
 
 ### Answer: 
+
+To random classification the predicting p(positive) =0.5 and p(negative)=0.5 . It acts as a random variable S with values uniformly distributed between 0 and 1 for each instance. We can compute the TPR,FPR at different values of $t$ between 0 and 1.
+
+The probability density function (PDF) of $S$ is:
+
+$$
+f_S(s) = \begin{cases}
+1 & \text{if } 0 \leq s \leq 1 \\
+0 & \text{otherwise}
+\end{cases}
+$$
+
+The cumulative distribution function (CDF) of $S$ is:
+
+$$
+F_S(s) = P(S \leq s) = \begin{cases}
+0 & \text{if } s < 0 \\
+s & \text{if } 0 \leq s \leq 1 \\
+1 & \text{if } s > 1
+\end{cases}
+$$
+
+Calculate $P(\text{score} \geq t \mid \text{positive})$:
+
+
+for positive instances also score distribution is same. So we have
+
+$$
+P(\text{score} \geq t \mid \text{positive}) = P(S \geq t)
+$$
+
+ByUsing the CDF of $S$
+
+$$
+P(S \geq t) = 1 - P(S < t) = 1 - F_S(t)
+$$
+
+Therefore:
+
+$$
+P(S \geq t) = 1 - t \quad \text{(since } F_S(t) = t \text{ for } t \in [0, 1])
+$$
+
+Calculate $P(\text{score} \geq t \mid \text{negative})$:
+
+Similarly, for negative instances:
+
+$$
+P(\text{score} \geq t \mid \text{negative}) = P(S \geq t) = 1 - t
+$$
+
+
+Therefore, for both positive and negative instances
+
+$$
+P(\text{score} \geq t \mid \text{positive}) = P(\text{score} \geq t \mid \text{negative}) = 1 - t
+$$
+
+Probability Distributions:
+
+- For positive 
+
+  $P(\text{score} \geq t \mid \text{positive}) = 1 - t$
+
+- For negative 
+
+  $P(\text{score} \geq t \mid \text{negative}) = 1 - t$
+
+-  because the probability that a random score exceeds $t$ is $1 - t$ and scores are uniformly distributed.
+
+
+
+   At any threshold $t$:
+     - $\text{TPR} = P(\text{predict positive} \mid \text{positive}) = 1 - t$
+     - $\text{FPR} = P(\text{predict positive} \mid \text{negative}) = 1 - t$
+   
+   $\text{it means TPR} = \text{FPR for all points on the graph.} $
+   
+Because both are equal for all $t$, the points in x and y axis will be same and the will be a straight line and it will be be diagonal becasue the slope of line is 1 because TPR/FPR=1 and the graph line starts with (0,0) point.
  
 
 
