@@ -195,6 +195,8 @@ Answer 8-10 with the following scenario. The Bayesian Candy Factory makes a Hall
 
 Answer:
 
+![alt text](images/box_type_1_posterior_probability.png) ![alt text](images/box_type_2_posterior_probability.png) ![alt text](images/box_type_3_posterior_probability.png)
+
 9.	For each Box, plot $\Pr(c_{N+1}=C|c_1,\ldots ,c_N)$ where $N$ ranges from 1 to 99. (10 points)
 
 Answer:
