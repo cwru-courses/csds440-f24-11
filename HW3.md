@@ -90,6 +90,79 @@ Answer:
 
 Answer:
 
+
+**Original Network Setup**:
+Lets represent our original network as $NN_1$, and the equation is given by:
+$$
+NN_1 = \sigma \left( \sum_{i=1}^n v_i h_i + C \right)
+$$
+Here:
+- $v_i$, $h_i$, and $C$ are all **scalars**.
+- The function $\sigma$ is a sigmoid activation applied to the output.
+- Here each hidden unit $h_i$ in the original network also has a sigmoid activation:
+$$
+h_i = \sigma(\mathbf{w}_i^T \mathbf{x} + b_i)
+$$
+Here:
+- $\mathbf{w}_i$ is a **weight vector** associated with the $i$-th hidden unit.
+- $\mathbf{x}$ is the **input vector**.
+- $b_i$ is a **bias term**, which is also a scalar.
+
+**Relationship Between Sigmoid and Tanh Activations**:
+The following equation represents the relationship between sigmoid and $\tanh$ activations:
+$$
+\sigma(z) = \frac{\tanh(z/2) + 1}{2}
+$$
+
+**Substitute Relationship into Hidden Layer Activation**:
+Transform the above activation $h_i$ from sigmoid to $\tanh$, we get:
+$$
+h_i = \frac{1}{2} \tanh\left(\frac{\mathbf{w}_i^T \mathbf{x} + b_i}{2}\right) + \frac{1}{2}
+$$
+
+**Define New Network Output with $\tanh$ Activations (Network $NN_2$)**:
+Lets Define a new network, $NN_2$, where the hidden layer has $\tanh$ activations. Each hidden unit $h_i'$ is now represented by:
+$$
+h_i' = \tanh(\mathbf{w}_i' \cdot \mathbf{x} + b_i')
+$$
+and the output of $NN_2$ is given by:
+$$
+NN_2 = \sigma \left( \sum_{i=1}^n v_i' h_i' + c' \right)
+$$
+
+
+
+**Define New Parameters**:
+To form a network with $\tanh$ activation in the hidden layer, we define following new parameters in the hidden layer:
+$$
+\mathbf{w}_i' = \frac{\mathbf{w}_i}{2}, \quad b_i' = \frac{b_i}{2}
+$$
+where $\mathbf{w}_i'$ is the modified weight vector and $b_i'$ is the modified bias term for the hidden layer.
+
+Then, each hidden unit $h_i'$ with $\tanh$ activation can be written as:
+$$
+h_i = \frac{\tanh(\mathbf{w}_i' \cdot \mathbf{x} + b_i') + 1}{2} =  \frac{h_i' + 1}{2} 
+$$
+
+Now, we replace $h_i$ in the original output expression with  $\frac{h_i' + 1}{2}$ :
+$$
+NN_1 = \sigma \left( \sum_{i=1}^n v_i \left( \frac{h_i' + 1}{2} \right) + C \right)
+$$
+Expanding this expression, we get:
+$$
+NN_1 = \sigma \left( \sum_{i=1}^n \frac{v_i}{2} h_i' + \sum_{i=1}^n \frac{v_i}{2} + C \right)
+$$
+
+
+By setting
+$$
+\mathbf{w}_i' = \frac{\mathbf{w}_i}{2}, \quad b_i' = \frac{b_i}{2}, \quad v_i' = \frac{v_i}{2}, \quad c' = \sum_{i=1}^n \frac{v_i}{2} + C
+$$
+we satisfy $NN_1 = NN_2$.
+
+ Therefore, by using $\mathbf{w}_i' = \frac{\mathbf{w}_i}{2}$ and $b_i' = \frac{b_i}{2}$ as the weights and biases in the hidden layer, and $v_i' = \frac{v_i}{2}$ and $c' = \sum_{i=1}^n \frac{v_i}{2} + C$ as the weights and bias for the output layer, with $\tanh$ activations in the hidden layer, this configuration is equivalent to the original network configuration.
+
+
 4.	Draw an artificial neural network structure which can perfectly classify the examples shown in the table below. Treat attributes as continuous. Show all of the weights on the edges. For this problem, assume that the activation functions are sign functions instead of sigmoids. Propagate each example through your network and show that the classification is indeed correct.
 (10 points)
  
