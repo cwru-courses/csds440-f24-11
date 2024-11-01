@@ -44,7 +44,7 @@ $$
 
 For any given neighborhood $H$ we can choose $\lambda \in [0,1]$ such that $z(\lambda) \in H$.
 
-Since we know that of $f$ is convex, we have:
+Since we know that of $f$ is convex, by using the Jensen’s inequality, we have:
 
 $$
 f(z(\lambda)) \leq \lambda f(x_0) + (1 - \lambda) f(y).
