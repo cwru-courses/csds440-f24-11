@@ -207,6 +207,55 @@ Answer:
 
 Answer:
 
+In feed forward ANN the layer takes input either output of previous layer or input data. By using weights and bias transformation is applied . output defiend as without activation function
+
+$h_{l} = W_{l} h_{l-1} + b_{l}$ or $h = Wx + b$(for specifc layer)
+
+Where:
+- $ h_{l} $ = the output of layer $ l $,
+- $ W_{l} $ = weight matrix for layer $ l $,
+- $ b_{l} $ = bias vector for layer $ l $,
+- $ h_{l-1} $ = output of the previous layer  but if (or if $ l = 1 $ the $ h_{l-1} $ will be x(consider) which is input data).
+
+    
+Let us consider multiple layers and calculate $h$:
+
+1. **1st layer output**:
+
+   $$h_1 = W_1 x + b_1$$
+
+2. **2nd layer output**:
+
+   $$h_2 = W_2 h_1 + b_2 = W_2(W_1 x + b_1) + b_2 = W_2 W_1 x + W_2 b_1 + b_2$$
+
+3. **3rd layer output**:
+
+   $$h_3 = W_3 h_2 + b_3 = W_3(W_2 W_1 x + W_2 b_1 + b_2) + b_3 = (W_3 W_2 W_1)x + (W_3 W_2 b_1 + W_3 b_2 + b_3)$$
+
+   which is in $Wx + b$ form which is a linear function. If we do the same for $L$ number of layers, the output will be in linear form:
+
+    $$
+    h_{L} = W_{L} W_{L-1} \dots W_{1} x + \sum_{l=1}^{L} \left( \prod_{j=l+1}^{L} W_{j} \right) b_{l}
+    $$
+
+    Le us say
+    $$
+    W_{\text{final layer}} = W_{L} W_{L-1} \dots W_{1}
+    $$
+    $$
+    b_{\text{final layer}} = \sum_{l=1}^{L} \left( \prod_{j=l+1}^{L} W_{j} \right) b_{l}
+    $$
+
+
+
+Thus:
+
+$$h_L = W_{\text{final layer}} x + b_{\text{final layer}} = Wx + b$$
+
+Which shows us that the output of the whole network is a linear transformation of $x$, irrespective of the count of layers. A linear function means the shape of the decision boundary will be a straight line, and for any other non-linear decision boundary, the ANN won't be applicable. This means the whole network is essentially reduced to a single-layer linear model.
+
+
+
 7.	Redo the backprop example done in class  with one iteration of gradient descent instead of two iterations of SGD as done in class. Compare the average losses after GD and SGD. Discuss the differences you observe in the weights and the losses. (10 points)
 
 Answer: 
