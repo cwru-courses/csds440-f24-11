@@ -75,7 +75,9 @@ $$
 Therfore, we have proved that if $f$ is convex, every local minimum is a global minimum.
 
 2.	Consider the LP: $\min c^Tx$ s.t. $Ax \geq b, x \geq 0$, where $T$ is the transpose, $A$ is the 4x2 matrix: \[ 0 −1; −1 −1; −1 2; 1 −1\], $b$ is a 4x1 vector \[−5; −9;0; −3\] and $c$ is a 2x1 vector \[−1; −2\]. (a) Draw the feasible region in $R^2$. (b) Draw the contours of $c^Tx =−12$, $c^Tx =−14$ and $c^Tx =−16$ and determine the solution graphically. (10 points)
+
 Answer:
+
  (a) Draw the feasible region in $R^2$.
 ![alt text](images/feasible_region_plot.png)
 
