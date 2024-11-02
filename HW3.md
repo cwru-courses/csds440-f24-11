@@ -198,7 +198,7 @@ Therefore, by using above equations for the weights and biases in the hidden lay
 | 4|  4	|−|
 
 Answer:
-![alt text](image-2.png)
+![alt text](images/image-2.png)
 
 From the figure, it is clear that:
 - The region between two hyperplanes is the positive region.
@@ -256,7 +256,7 @@ Perceptrons:
 - $ a = \text{Sign}(x_1 + x_2 > 1) $
 
 where, $ a = x_1 + x_2 > 1 $ is and function implmentation using peceptron.
-![alt text](image-3.png)
+![alt text](images/image-3.png)
 
 Here’s the forward pass formatted using `$` for inline math:
 
