@@ -223,7 +223,9 @@ $$
 x_1 + x_2 = -5
 $$
 
-Let's construct a perceptron as $ \text{Sign}(x_1 + x_2 > - 5) $, which outputs all points where $ x_1 + x_2 = -5 $ as $ + $ and others as $ - $.
+Let's construct a perceptron as 
+
+$ \text{Sign}(x_1 + x_2 > - 5) $, which outputs all points where $ x_1 + x_2 = -5 $ as $ + $ and others as $ - $.$
 
 So, perceptron $ p_1 = \text{Sign}(x_1 + x_2 > - 5) = \begin{cases} 
 +1 & \text{if } x_1 + x_2 > -5 \\ 
@@ -243,13 +245,15 @@ $$
 x_1 + x_2 = 5
 $$
 
-Let's construct a perceptron $ \text{Sign}(x_1 + x_2 < 5) $ for all points $(x, y)$ such that $ x + y < 5 $ are positive and others are negative.
+Let's construct a perceptron 
+
+$ \text{Sign}(x_1 + x_2 < 5) $ for all points $(x, y)$ such that $ x + y < 5 $ are positive and others are negative.$
 
 So, 
-$ p_2 = \text{Sign}(x_1 + x_2 < 5) = \text{Sign}(-x_1 + -x_2 > - 5) = \begin{cases} 
+$$ p_2 = \text{Sign}(x_1 + x_2 < 5) = \text{Sign}(-x_1 + -x_2 > - 5) = \begin{cases} 
 +1 & \text{if } -x_1 + -x_2 > - 5 \\ 
 -1 & \text{if } -x_1 + -x_2 < - 5 
-\end{cases} $
+\end{cases} $$
 
 To take the intersection between the two regions where both perceptrons are positive, we need an **AND gate**.
 
@@ -258,7 +262,9 @@ Perceptrons:
 - $ p_2 = \text{Sign}(-x_1 - x_2 > - 5) $
 - $ a = \text{Sign}(x_1 + x_2 > 1) $
 
-where, $ a = x_1 + x_2 > 1 $ is and function implmentation using peceptron.
+where, 
+
+$ a = x_1 + x_2 > 1 $ is and function implmentation using peceptron.
 ![alt text](images/image-3.png)
 
 Here’s the forward pass formatted using `$` for inline math:
@@ -267,6 +273,7 @@ Here’s the forward pass formatted using `$` for inline math:
 #### Forward pass Calculations:
 
 1. **For $(x_1, x_2) = (-4, -4)$**:
+
 $p_1 = \text{Sign}((-4) + (-4) > -5) = \text{Sign}(-8 > -5) = \text{Sign}(\text{False}) = -1$
 
 $p_2 = \text{Sign}(-(-4) - (-4) > -5) = \text{Sign}(8 > -5) = \text{Sign}(\text{True}) = 1$
@@ -274,6 +281,7 @@ $p_2 = \text{Sign}(-(-4) - (-4) > -5) = \text{Sign}(8 > -5) = \text{Sign}(\text{
 $a = \text{Sign}(p_1 + p_2 > 1) = \text{Sign}(-1 + 1 > 1) = \text{Sign}(0 > 1) = \text{Sign}(\text{False}) = -1$
 
 2. **For $(x_1, x_2) = (-1, -1)$**:
+
 $p_1 = \text{Sign}((-1) + (-1) > -5) = \text{Sign}(-2 > -5) = \text{Sign}(\text{True}) = 1$
 
 $p_2 = \text{Sign}(-(-1) - (-1) > -5) = \text{Sign}(2 > -5) = \text{Sign}(\text{True}) = 1$
@@ -281,6 +289,7 @@ $p_2 = \text{Sign}(-(-1) - (-1) > -5) = \text{Sign}(2 > -5) = \text{Sign}(\text{
 $a = \text{Sign}(p_1 + p_2 > 1) = \text{Sign}(1 + 1 > 1) = \text{Sign}(2 > 1) = \text{Sign}(\text{True}) = 1$
 
 3. **For $(x_1, x_2) = (1, 1)$**:
+
 $p_1 = \text{Sign}((1) + (1) > -5) = \text{Sign}(2 > -5) = \text{Sign}(\text{True}) = 1$
 
 $p_2 = \text{Sign}(-(1) - (1) > -5) = \text{Sign}(-2 > -5) = \text{Sign}(\text{True}) = 1$
@@ -288,6 +297,7 @@ $p_2 = \text{Sign}(-(1) - (1) > -5) = \text{Sign}(-2 > -5) = \text{Sign}(\text{T
 $a = \text{Sign}(p_1 + p_2 > 1) = \text{Sign}(1 + 1 > 1) = \text{Sign}(2 > 1) = \text{Sign}(\text{True}) = 1$
 
 4. **For $(x_1, x_2) = (4, 4)$**:
+
 $p_1 = \text{Sign}((4) + (4) > -5) = \text{Sign}(8 > -5) = \text{Sign}(\text{True}) = 1$
 
 $p_2 = \text{Sign}(-(4) - (4) > -5) = \text{Sign}(-8 > -5) = \text{Sign}(\text{False}) = -1$
@@ -382,29 +392,31 @@ Let us consider multiple layers and calculate $h$:
 
 1. **1st layer output**:
 
-   $$h_1 = W_1 x + b_1$$
+$$h_1 = W_1 x + b_1$$
 
 2. **2nd layer output**:
 
-   $$h_2 = W_2 h_1 + b_2 = W_2(W_1 x + b_1) + b_2 = W_2 W_1 x + W_2 b_1 + b_2$$
+$$h_2 = W_2 h_1 + b_2 = W_2(W_1 x + b_1) + b_2 = W_2 W_1 x + W_2 b_1 + b_2$$
 
 3. **3rd layer output**:
 
-   $$h_3 = W_3 h_2 + b_3 = W_3(W_2 W_1 x + W_2 b_1 + b_2) + b_3 = (W_3 W_2 W_1)x + (W_3 W_2 b_1 + W_3 b_2 + b_3)$$
+$$h_3 = W_3 h_2 + b_3 = W_3(W_2 W_1 x + W_2 b_1 + b_2) + b_3 = (W_3 W_2 W_1)x + (W_3 W_2 b_1 + W_3 b_2 + b_3)$$
 
    which is in $Wx + b$ form which is a linear function. If we do the same for $L$ number of layers, the output will be in linear form:
 
-    $$
-    h_{L} = W_{L} W_{L-1} \dots W_{1} x + \sum_{l=1}^{L} \left( \prod_{j=l+1}^{L} W_{j} \right) b_{l}
-    $$
+$$
+h_{L} = W_{L} W_{L-1} \dots W_{1} x + \sum_{l=1}^{L} \left( \prod_{j=l+1}^{L} W_{j} \right) b_{l}
+$$
 
-    Le us say
-    $$
-    W_{\text{final layer}} = W_{L} W_{L-1} \dots W_{1}
-    $$
-    $$
-    b_{\text{final layer}} = \sum_{l=1}^{L} \left( \prod_{j=l+1}^{L} W_{j} \right) b_{l}
-    $$
+   Le us say
+    
+$$
+W_{\text{final layer}} = W_{L} W_{L-1} \dots W_{1}
+$$
+
+$$
+b_{\text{final layer}} = \sum_{l=1}^{L} \left( \prod_{j=l+1}^{L} W_{j} \right) b_{l}
+$$
 
 
 
