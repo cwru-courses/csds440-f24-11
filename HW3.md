@@ -267,7 +267,7 @@ where,
 $ a = x_1 + x_2 > 1 $ is and function implmentation using peceptron.
 ![alt text](images/image-3.png)
 
-Here’s the forward pass formatted using `$` for inline math:
+
 
 
 #### Forward pass Calculations:
