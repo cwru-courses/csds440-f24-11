@@ -198,6 +198,108 @@ Therefore, by using above equations for the weights and biases in the hidden lay
 | 4|  4	|−|
 
 Answer:
+![alt text](image-2.png)
+
+From the figure, it is clear that:
+- The region between two hyperplanes is the positive region.
+- The region outside is the negative region.
+
+We have to build artificial neural network that satisfies the above criteria.
+
+Let the two hyperplanes have the following form:
+
+### Hyperplane 1
+Let $x_1$-intercept = -5, $x_2$-intercept = -5.
+
+$$
+\frac{x_1}{-5} + \frac{x_2}{-5} = 1
+$$
+
+This simplifies to:
+
+$$
+x_1 + x_2 = -5
+$$
+
+Let's construct a perceptron as $ \text{Sign}(x_1 + x_2 > - 5) $, which outputs all points where $ x_1 + x_2 = -5 $ as $ + $ and others as $ - $.
+
+So, perceptron $ p_1 = \text{Sign}(x_1 + x_2 > - 5) = \begin{cases} 
++1 & \text{if } x_1 + x_2 > -5 \\ 
+-1 & \text{if } x_1 + x_2 < -5 
+\end{cases} $
+
+### Hyperplane 2
+Let $x_1$-intercept = +5, $x_2$-intercept = +5.
+
+$$
+\frac{x_1}{5} + \frac{x_2}{5} = 1
+$$
+
+This simplifies to:
+
+$$
+x_1 + x_2 = 5
+$$
+
+Let's construct a perceptron $ \text{Sign}(x_1 + x_2 < 5) $ for all points $(x, y)$ such that $ x + y < 5 $ are positive and others are negative.
+
+So, $ p_2 = \text{Sign}(x_1 + x_2 < 5) = \text{Sign}(-x_1 + -x_2 > - 5) = \begin{cases} 
++1 & \text{if } -x_1 + -x_2 > - 5 \\ 
+-1 & \text{if } -x_1 + -x_2 < - 5 
+\end{cases} $
+
+To take the intersection between the two regions where both perceptrons are positive, we need an **AND gate**.
+
+Perceptrons:
+- $ p_1 = \text{Sign}(x_1 + x_2 > - 5) $
+- $ p_2 = \text{Sign}(-x_1 - x_2 > - 5) $
+- $ a = \text{Sign}(x_1 + x_2 > 1) $
+
+where, $ a = x_1 + x_2 > 1 $ is and function implmentation using peceptron.
+![alt text](image-3.png)
+
+Here’s the forward pass formatted using `$` for inline math:
+
+
+#### Forward pass Calculations:
+
+1. **For $(x_1, x_2) = (-4, -4)$**:
+   $p_1 = \text{Sign}((-4) + (-4) > -5) = \text{Sign}(-8 > -5) = \text{Sign}(\text{False}) = -1$
+   
+   $p_2 = \text{Sign}(-(-4) - (-4) > -5) = \text{Sign}(8 > -5) = \text{Sign}(\text{True}) = 1$
+   
+   $a = \text{Sign}(p_1 + p_2 > 1) = \text{Sign}(-1 + 1 > 1) = \text{Sign}(0 > 1) = \text{Sign}(\text{False}) = -1$
+
+2. **For $(x_1, x_2) = (-1, -1)$**:
+   $p_1 = \text{Sign}((-1) + (-1) > -5) = \text{Sign}(-2 > -5) = \text{Sign}(\text{True}) = 1$
+   
+   $p_2 = \text{Sign}(-(-1) - (-1) > -5) = \text{Sign}(2 > -5) = \text{Sign}(\text{True}) = 1$
+   
+   $a = \text{Sign}(p_1 + p_2 > 1) = \text{Sign}(1 + 1 > 1) = \text{Sign}(2 > 1) = \text{Sign}(\text{True}) = 1$
+
+3. **For $(x_1, x_2) = (1, 1)$**:
+   $p_1 = \text{Sign}((1) + (1) > -5) = \text{Sign}(2 > -5) = \text{Sign}(\text{True}) = 1$
+   
+   $p_2 = \text{Sign}(-(1) - (1) > -5) = \text{Sign}(-2 > -5) = \text{Sign}(\text{True}) = 1$
+   
+   $a = \text{Sign}(p_1 + p_2 > 1) = \text{Sign}(1 + 1 > 1) = \text{Sign}(2 > 1) = \text{Sign}(\text{True}) = 1$
+
+4. **For $(x_1, x_2) = (4, 4)$**:
+   $p_1 = \text{Sign}((4) + (4) > -5) = \text{Sign}(8 > -5) = \text{Sign}(\text{True}) = 1$
+   
+   $p_2 = \text{Sign}(-(4) - (4) > -5) = \text{Sign}(-8 > -5) = \text{Sign}(\text{False}) = -1$
+   
+   $a = \text{Sign}(p_1 + p_2 > 1) = \text{Sign}(1 + (-1) > 1) = \text{Sign}(0 > 1) = \text{Sign}(\text{False}) = -1$
+
+
+
+| \( x_1 \) | \( x_2 \) | \( p_1 \) | \( p_2 \) | \( a \) |
+|-----------|-----------|-----------|-----------|---------|
+| −4        | −4        | −1        | 1         | −1      |
+| −1        | −1        | 1         | 1         | 1       |
+| 1         | 1         | 1         | 1         | 1       |
+| 4         | 4         | 1         | −1        | −1      |
+
 
 5.	Using R/Matlab/Mathematica/python/your favorite software, plot the decision boundary for an ANN with two inputs, two hidden units and one output. All activation functions are sigmoids. Each layer is fully connected to the next. Assume the inputs range between −5 to 5 and fix all activation thresholds to 0. Plot the decision boundaries for  the weights except the thresholds randomly chosen between (i) (−10,10), (ii) (−3,3), (iii) (−0.1,0.1) (one random set for each case is enough). Use your plots to show that weight decay can be used to control overfitting for ANNs. (If you use Matlab, the following commands might be useful: meshgrid and surf). (20 points)
 
