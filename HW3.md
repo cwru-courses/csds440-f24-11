@@ -198,6 +198,8 @@ Therefore, by using above equations for the weights and biases in the hidden lay
 | 4|  4	|−|
 
 Answer:
+
+
 ![alt text](images/image-2.png)
 
 From the figure, it is clear that:
