@@ -376,6 +376,35 @@ Answer:
 
 Answer:
 
+![alt text](images/box_type_3_crummy_probability.png) ![alt text](images/box_type_2_crummy_probability.png) ![alt text](images/box_type_1_crummy_probability.png)
+
 10.	Suppose before opening a Box you believe that each Box has 70% crummy candies (type 3) with probability 0.8 and the probability of the other two types is 0.1 each. Replot $\Pr(T=i|c_1,…,c_N)$ taking this belief into account for each of the 3 Boxes. Briefly explain the implications of your results. (10 points)
 
 Answer: 
+
+![alt text](images/box_type_1_posterior_with_updated_prior.png) ![alt text](images/box_type_3_posterior_with_updated_prior.png) ![alt text](images/box_type_2_posterior_with_updated_prior.png)
+
+
+
+### 1. Box Type 1 Plot (First Image)
+
+- As we start with a strong belief (with prior probability of 0.8)  that the box is Type 3, At the start Type 3 starts higher than the other two represented by the green line .
+- But as more Yummy candies ( Type 1) are observed, the posterior probability for Type 1 (red line)  overtakes the others and finally converges to 1, despite the initial high prior for Type 3.
+-  This plot implies that even if Type 3 has a strong prior, the accumulation of evidence of Yummy candies (Type 1) correctly shifts the belief toward Type 1.
+
+
+
+### 2. Box Type 3 Plot (Second Image)
+
+-  For the box of Type 3, the observed data  (more Crummy candies) aligns with the high prior for Type 3, resulting in the posterior for Type 3 (green line) converge very quickly to 1.
+-  The  Type 3 posterior probability  remains close to 1, as more candies are consumed, while for Types 1 and 2 (red and blue lines) the posterior probabilities  remain close to 0.
+- This plot shows if we have a strong prior that aligns with the true data  reinforces the posterior belief
+
+
+
+### 3. Box Type 2 Plot (Third Image)
+
+- Because of the initial sequence of candies munched contains a few Yummy candies in a row, the posterior temporarily favors Box Type 1 ctreating bump in favour of Box 1
+- As we start with a strong belief (with prior probability of 0.8)  that the box is Type 3, At the start Type 3 starts higher than the other two represented by the green line .
+- But as more  candies are observed, the posterior probability for Type 2 (Blue line)  overtakes the others and finally converges to 1, despite the initial high prior for Type 3.
+-  This plot implies that even if Type 3 has a strong prior, the accumulation of evidence of for Type 2 correctly shifts the belief toward Type 2.
