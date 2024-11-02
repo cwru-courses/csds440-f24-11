@@ -365,7 +365,7 @@ Which shows us that the output of the whole network is a linear transformation o
 Answer: 
 
 
-![alt text](Q7_images/image.png)
+![alt text](images/image-q7.png)
 
 
 
@@ -407,7 +407,7 @@ $$
 h(n_0) = \frac{1}{1 + e^{-1}} = 0.731
 $$
 
-![alt text](Q7_images/image_2.png)
+![alt text](images/image_2-q7.png)
 
 ## For Total Gradient Descent (GD) :- 
 
@@ -472,7 +472,7 @@ $$
 
 
 ### Forward Pass for $(x_1, x_2) = (0, 1)$
-![alt text](Q7_images/image_3.png)
+![alt text](images/image_3-q7.png)
 
 1. Calculating $n_1$ and $n_2$:
    - $n_1 = 0 + 1 = 1$
@@ -583,7 +583,7 @@ $W = \begin{bmatrix} 1\\ 1\\ 1 + 0.056 \\ 1 + 0.056 \\ 1 - 0.509 \\ 1 - 0.509 \e
 
 ---
 
-![alt text](Q7_images/image_4.png)
+![alt text](images/image_4-q7.png)
 ### Forward Pass for $(0,0)$
 
 $n_1, n_2 = 0$, $h(n_1) = h(n_2) = \frac{1}{2} = 0.5$
