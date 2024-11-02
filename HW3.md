@@ -364,6 +364,289 @@ Which shows us that the output of the whole network is a linear transformation o
 
 Answer: 
 
+
+![alt text](Q7_images/image.png)
+
+
+
+Let $n_j$ be net input to unit $j$.
+
+$$
+n_j = w_1 \cdot x_1 + w_3 \cdot x_2, \quad n_2 = w_2 \cdot x_2 + w_4 \cdot x_2
+$$
+
+$$
+n_0 = w_5 \cdot h(n_1) + w_6 \cdot h(n_2)
+$$
+
+$$
+o = h(n_0)
+$$
+
+## Forward Pass Calculation
+
+Forward pass $(x_1, x_2, f) = (0, 0, 0)$
+
+$$
+n_1 = 0, \quad n_2 = 0
+$$
+
+$$
+h(n_1) = \sigma(0) = \frac{1}{1 + e^0} = \frac{1}{2}
+$$
+
+$$
+h(n_2) = \sigma(0) = \frac{1}{2}
+$$
+
+$$
+n_0 = \frac{1}{2} + \frac{1}{2} = 1
+$$
+
+$$
+h(n_0) = \frac{1}{1 + e^{-1}} = 0.731
+$$
+
+![alt text](Q7_images/image_2.png)
+
+## For Total Gradient Descent (GD) :- 
+
+## Gradient Calculations for Each Weight
+
+### Gradient with Respect to $w_5$
+
+$$
+\frac{\partial L}{\partial w_5} = h(n_0)(1 - h(n_0)) \, x_{o1} (h(n_0) - y_0)
+$$
+
+Substitute values:
+
+$$
+= (0.731)(1 - 0.731) \cdot \frac{1}{2} (0.731 - 0)
+$$
+
+$$
+= (0.731)(0.269) \cdot \frac{1}{2} = 0.0719
+$$
+
+### Gradient with Respect to $w_6$
+
+$$
+\frac{\partial L}{\partial w_6} = h(n_0)(1 - h(n_0)) \, x_{o2} (h(n_0) - y_0)
+$$
+
+Substitute values:
+
+$$
+= (0.731)(1 - 0.731) \cdot \frac{1}{2} = 0.0719
+$$
+
+### Gradient with Respect to $w_1$
+
+$$
+\frac{\partial L}{\partial w_1} = h(n_1)(1 - h(n_1)) \, x_1 \frac{\partial L}{\partial h(n_1)}
+$$
+
+Substitute values:
+
+$$
+= \frac{1}{2} \left(1 - \frac{1}{2}\right) \cdot 0 \cdot \left(0.0719 \cdot \frac{1}{2}\right) = 0
+$$
+
+### Gradient with Respect to $w_2$
+
+$$
+\frac{\partial L}{\partial w_2} = h(n_2)(1 - h(n_2)) \, x_2 \frac{\partial L}{\partial h(n_2)} = 0
+$$
+
+Similarly,
+
+$$
+\frac{\partial L}{\partial w_3} = 0, \quad \frac{\partial L}{\partial w_4} = 0
+$$
+
+
+
+
+
+
+
+### Forward Pass for $(x_1, x_2) = (0, 1)$
+![alt text](Q7_images/image_3.png)
+
+1. Calculating $n_1$ and $n_2$:
+   - $n_1 = 0 + 1 = 1$
+   - $n_2 = 0 + 1 = 1$
+   - $h(n_1) = \frac{1}{1 + e^{-1}} = 0.731$, $h(n_2) = 0.731$
+
+2. Calculating $n_0$:
+   $$
+   n_0 = (1 \cdot 0.731) + (1 \cdot 0.731) = 1.462
+   $$
+
+3. Calculating $h(n_0)$:
+   $$
+   h(n_0) = \sigma(1.462) = \frac{1}{1 + e^{-1.462}} = 0.8118
+   $$
+
+---
+
+### Gradient Calculations
+
+1. Gradient with Respect to $w_5$:
+   $$
+   \frac{\partial L}{\partial w_5} = h(n_0)(1 - h(n_0)) h(n_1) (h(n_0) - y_0)
+   $$
+   Substitute values:
+   $$
+   = (0.8118)(1 - 0.8118)(0.731)(0.8118 - 1) = -0.02101
+   $$
+
+2. Gradient with Respect to $w_6$:
+   $$
+   \frac{\partial L}{\partial w_6} = h(n_0)(1 - h(n_0)) h(n_2) (h(n_0) - y_0)
+   $$
+   Substitute values:
+   $$
+   = (0.8118)(1 - 0.8118)(0.731)(0.8118 - 1) = -0.02101
+   $$
+
+
+
+
+3.  Gradient with Respect to $w_1$:
+   $$
+   \frac{\partial L}{\partial w_1} = h(n_1)(1 - h(n_1)) x_1 \left( \frac{\partial L}{\partial w_5} \frac{w_5}{h(n_1)} \right)
+   $$
+   Substitute values:
+   $$
+   = (0.731)(1 - 0.731)(0)(-0.021) \frac{1}{0.731} = 0
+   $$
+
+4. Gradient with Respect to $w_2$:
+   $$
+   \frac{\partial L}{\partial w_2} = h(n_2)(1 - h(n_2)) x_1 \left( \frac{\partial L}{\partial w_6} \frac{w_6}{h(n_2)} \right)
+   $$
+   Substitute values:
+   $$
+   = (0.731)(1 - 0.731)(0) + (-0.021) \frac{1}{0.731} = 0
+   $$
+
+5.. Gradient with Respect to $w_3$:
+   $$
+   \frac{\partial L}{\partial w_3} = h(n_1)(1 - h(n_1)) x_1 \left( \frac{\partial L}{\partial w_5} \frac{w_5}{h(n_1)} \right)
+   $$
+   Substitute values:
+   $$
+   = (0.731)(1 - 0.731)(1)(-0.021) \frac{1}{0.731} = -0.0056
+   $$
+
+6. Gradient with Respect to $w_4$:
+   $$
+   \frac{\partial L}{\partial w_4} = h(n_2)(1 - h(n_2)) x_2 \left( \frac{\partial L}{\partial w_6} \frac{w_6}{h(n_2)} \right)
+   $$
+   Substitute values:
+   $$
+   = (0.731)(1 - 0.731)(1)(-0.021) \frac{1}{0.731} = -0.0056
+   $$
+
+
+
+## Weight Update for Gradient Descent (GD)
+
+The weight update rule for gradient descent is given by:
+
+$$
+W \leftarrow W - \eta \sum_{i=1}^m \nabla W L_i
+$$
+
+where:
+- $m =$ number of examples
+- $L_i$ is the loss obtained when the $i$-th example is passed
+- $\nabla W L_i = L(y_i, \hat{y}_i)$ represents the gradient of the loss with respect to the weights for each example $i$
+
+---
+
+### Expanded Form of Weight Update
+
+$$
+W = \begin{bmatrix} 1 \\ \vdots \\ \end{bmatrix} - \eta [ \begin{bmatrix} 0 \\ 0 \\ 0 \\ 0 \\ 0.0719 \\ 0.0719 \end{bmatrix} + \begin{bmatrix} 0 \\ 0 \\ -0.0056 \\ -0.0056 \\ -0.02101 \\ -0.02101 \end{bmatrix} ]
+$$
+
+
+
+$\eta = 10$
+
+$W = \begin{bmatrix} 1\\ 1\\ 1 + 0.056 \\ 1 + 0.056 \\ 1 - 0.509 \\ 1 - 0.509 \end{bmatrix} = \begin{bmatrix}  1\\ 1\\ 1.056 \\ 1.056 \\ 0.491 \\ 0.491 \end{bmatrix}$
+
+**Doing Forward Pass with Following Weights**
+
+---
+
+![alt text](Q7_images/image_4.png)
+### Forward Pass for $(0,0)$
+
+$n_1, n_2 = 0$, $h(n_1) = h(n_2) = \frac{1}{2} = 0.5$
+
+$n_0 = 0.491$, $h(n_0) = \frac{1}{1 + e^{-0.491}} = 0.620$
+
+
+
+**Forward Pass for $(0,1)$**
+
+$n_1 = h_2 = 1.056$, $h(n_1) = h(n_2) = \frac{1}{1 + e^{-1.056}} = 0.7419$
+
+$n_0 = 2 \cdot (0.4491) \cdot (0.7419) = 1.408$
+
+$h(n_0) = \frac{1}{1 + e^{-1.408}} = 0.8034$
+
+- The SGD calculation from the class:-
+
+**SGD Forward Pass after 2 iterations**
+
+| $x_1$ | $x_2$ | $f$ | $\hat{y}$ |
+|-------|-------|-----|-----------|
+| 0     | 0     | 0   | 0.5866    |
+| 0     | 1     | 1   | 0.8104    |
+
+$L_{SGD} = \frac{1}{2} \sum_{i=1}^m (y_i - \hat{y}_i)^2 = \frac{1}{2}((0.5866)^2 + (0.1896)^2) = 0.346$
+
+---
+
+**GD Forward Pass**
+
+| $x_1$ | $x_2$ | $f$ | $\hat{y}$ |
+|-------|-------|-----|-----------|
+| 0     | 0     | 0   | 0.620     |
+| 0     | 1     | 1   | 0.674     |
+
+$L_{GD} = \frac{1}{2} \sum_{i=1}^m (y_i - \hat{y}_i)^2 = \frac{1}{2}((0.620)^2 + (0.326)^2) = 0.2453$
+
+
+
+### 1. **Loss Comparison:**
+
+   - **Average Loss After SGD**: $0.3467$
+   - **Average Loss After GD**: $0.2454$
+
+   **Observation**: 
+   - The Toatal gradient descent(GD) has lower average loss than SGD. 
+   - This happens because Total gradient descent (GD) uses all the examples to compute an gradient which is the true gradiant of the loss function rather than an approximation in the case odf SGD, leading to a more accurate adjustment in weights that minimizes the loss more effectively for the entire dataset.
+   -Where as SGD, updates weights after each example which is an approximation of the true gradiant, which can lead to a noisier and less optimal loss reduction in the short term.
+
+### 2. **Weight Updates:**
+
+   - **Weights After SGD**: 
+     $\begin{bmatrix} 1.0 \\ 1.0 \\ 1.0528502 \\ 1.0528502 \\ 0.97984755 \\ 0.97984755 \end{bmatrix}$
+   - **Weights After GD**: 
+     $\begin{bmatrix} 1.0 \\ 1.0 \\ 1.0565026 \\ 1.0565026 \\ 0.49141848 \\ 0.49141848 \end{bmatrix}$
+
+   **Observation**: 
+   - The weights in SGD are updated in small random steps which sometimes may increase the loss function as the the weights are updated with gradiants with single examle.
+  -  SGD updates the weights based on individual examples, leading to smaller, incremental adjustments. 
+  -  In contrast, Total GD, applies gradient update averaged over all examples which leads to more significant changes in the weights.
+
+
 Answer 8-10 with the following scenario. The Bayesian Candy Factory makes a Halloween Candy Box that contains a mix of yummy (Y) and crummy (C) candy. You know that each Box is one of three types: 1. 80% Y and 20% C, 2. 55% Y and 45% C and 3. 30% Y and 70% C. You open a Box and start munching candies. Let the $i^{th}$ candy you munch be denoted by $c_i$. Answer the following questions using a program written in any language of your choice. Generate one Box with 100 candies for each type, and assume any fixed order of munching.
  
 8.	For each Box, plot $\Pr(T=i|c_1,\ldots ,c_N)$ on a graph where $T$ represents a type and $N$ ranges from 1 to 100. (You should have three graphs and each graph will have three curves.) (10 points)
