@@ -480,11 +480,13 @@ $$
    - $h(n_1) = \frac{1}{1 + e^{-1}} = 0.731$, $h(n_2) = 0.731$
 
 2. Calculating $n_0$:
+
    $$
    n_0 = (1 \cdot 0.731) + (1 \cdot 0.731) = 1.462
    $$
 
 3. Calculating $h(n_0)$:
+
    $$
    h(n_0) = \sigma(1.462) = \frac{1}{1 + e^{-1.462}} = 0.8118
    $$
@@ -494,19 +496,25 @@ $$
 ### Gradient Calculations
 
 1. Gradient with Respect to $w_5$:
+
    $$
    \frac{\partial L}{\partial w_5} = h(n_0)(1 - h(n_0)) h(n_1) (h(n_0) - y_0)
    $$
+
    Substitute values:
+
    $$
    = (0.8118)(1 - 0.8118)(0.731)(0.8118 - 1) = -0.02101
    $$
 
-2. Gradient with Respect to $w_6$:
+3. Gradient with Respect to $w_6$:
+
    $$
    \frac{\partial L}{\partial w_6} = h(n_0)(1 - h(n_0)) h(n_2) (h(n_0) - y_0)
    $$
+
    Substitute values:
+
    $$
    = (0.8118)(1 - 0.8118)(0.731)(0.8118 - 1) = -0.02101
    $$
@@ -514,38 +522,50 @@ $$
 
 
 
-3.  Gradient with Respect to $w_1$:
+5.  Gradient with Respect to $w_1$:
+
    $$
    \frac{\partial L}{\partial w_1} = h(n_1)(1 - h(n_1)) x_1 \left( \frac{\partial L}{\partial w_5} \frac{w_5}{h(n_1)} \right)
    $$
+   
    Substitute values:
+   
    $$
    = (0.731)(1 - 0.731)(0)(-0.021) \frac{1}{0.731} = 0
    $$
 
-4. Gradient with Respect to $w_2$:
+7. Gradient with Respect to $w_2$:
+
    $$
    \frac{\partial L}{\partial w_2} = h(n_2)(1 - h(n_2)) x_1 \left( \frac{\partial L}{\partial w_6} \frac{w_6}{h(n_2)} \right)
    $$
+
    Substitute values:
+
    $$
    = (0.731)(1 - 0.731)(0) + (-0.021) \frac{1}{0.731} = 0
    $$
 
-5.. Gradient with Respect to $w_3$:
+5. Gradient with Respect to $w_3$:
+   
    $$
    \frac{\partial L}{\partial w_3} = h(n_1)(1 - h(n_1)) x_1 \left( \frac{\partial L}{\partial w_5} \frac{w_5}{h(n_1)} \right)
    $$
+
    Substitute values:
+
    $$
    = (0.731)(1 - 0.731)(1)(-0.021) \frac{1}{0.731} = -0.0056
    $$
 
-6. Gradient with Respect to $w_4$:
+7. Gradient with Respect to $w_4$:
+
    $$
    \frac{\partial L}{\partial w_4} = h(n_2)(1 - h(n_2)) x_2 \left( \frac{\partial L}{\partial w_6} \frac{w_6}{h(n_2)} \right)
    $$
+
    Substitute values:
+
    $$
    = (0.731)(1 - 0.731)(1)(-0.021) \frac{1}{0.731} = -0.0056
    $$
@@ -609,6 +629,7 @@ $h(n_0) = \frac{1}{1 + e^{-1.408}} = 0.8034$
 | 0     | 0     | 0   | 0.5866    |
 | 0     | 1     | 1   | 0.8104    |
 
+
 $L_{SGD} = \frac{1}{2} \sum_{i=1}^m (y_i - \hat{y}_i)^2 = \frac{1}{2}((0.5866)^2 + (0.1896)^2) = 0.346$
 
 ---
@@ -619,6 +640,7 @@ $L_{SGD} = \frac{1}{2} \sum_{i=1}^m (y_i - \hat{y}_i)^2 = \frac{1}{2}((0.5866)^2
 |-------|-------|-----|-----------|
 | 0     | 0     | 0   | 0.620     |
 | 0     | 1     | 1   | 0.674     |
+
 
 $L_{GD} = \frac{1}{2} \sum_{i=1}^m (y_i - \hat{y}_i)^2 = \frac{1}{2}((0.620)^2 + (0.326)^2) = 0.2453$
 
@@ -637,8 +659,11 @@ $L_{GD} = \frac{1}{2} \sum_{i=1}^m (y_i - \hat{y}_i)^2 = \frac{1}{2}((0.620)^2 +
 ### 2. **Weight Updates:**
 
    - **Weights After SGD**: 
+
      $\begin{bmatrix} 1.0 \\ 1.0 \\ 1.0528502 \\ 1.0528502 \\ 0.97984755 \\ 0.97984755 \end{bmatrix}$
+     
    - **Weights After GD**: 
+
      $\begin{bmatrix} 1.0 \\ 1.0 \\ 1.0565026 \\ 1.0565026 \\ 0.49141848 \\ 0.49141848 \end{bmatrix}$
 
    **Observation**: 
