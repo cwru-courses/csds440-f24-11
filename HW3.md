@@ -308,6 +308,61 @@ $a = \text{Sign}(p_1 + p_2 > 1) = \text{Sign}(1 + (-1) > 1) = \text{Sign}(0 > 1)
 
 Answer:
 
+![Alt text](images/Figure_1.png)
+
+![Alt text](images/Figure_2.png)
+
+![Alt text](images/Figure_3.png)
+
+Plot 1: 
+
+        It shows a highly flexible decision boundary as the range of weights it can take is huge, which leads to memorization of the training data.
+        
+        It seems like a case of overfitting. Because of the large range of weights, it creates complex boundaries. It loses generalizability.
+        
+Plot 2: 
+
+         It shows a smooth decision boundary that loosely fits the training data and promotes Generalization i.e. and perform better on unseen data.
+         
+         It experiences smaller weight sizes resulting in a simpler model.
+         
+         It seems less likely to overfit due to smooth boundaries and less likely to fit noise.
+         
+Plot 3: 
+
+        It shows a simple decision boundary due to underfitting.
+        
+        It produce Linear Decision Boundaries. Restrict the model to overfit and capture complex patterns but also make the network useless because the network uses its ability to differentiate classes.
+        
+weight decay can be used to control overfitting for ANNs because of the following reasons:-
+Models with a high weight range (eg -10,10) can cause overfitting especially if initialized randomly The model can become complex and lead to memorization and overfitting.
+
+Its seems pretty clear from Plot 2 that if the weight becomes in the reasonable range (eg -3,3), then the decision boundry becomes more generalized and gives more accurate results in unseen data.
+
+Here the weight decay comes into the picture by adding some penalty on large weights.
+
+$$
+L_{\text{reg}} = L + \lambda \sum_{i} w_i^2
+$$
+
+where:
+- L = original loss
+- λ = regularization parameter that controls the strength of weight decay
+- ∑iw<sub>I</sub>^2 = sum of the squares of all the weights
+
+λ values control the weight Decay
+- large λ values cause simple decision boundaries i.e. underfit.
+- Moderate λ values make a perfect balance between fitting and generalization
+- Small λ values make highly specific decision boundaries to training data (if weights are chosen randomly high) causing overfitting.
+
+The above plots are taken as the reference for 
+- if λ is high then the plot looks similar to Case 3
+- if λ is small then the plot looks similar to Case 1
+- if λ is chosen moderately then the plot looks similar to Case 2
+
+
+
+
 6.	When learning the weights for the perceptron, we dropped the *sign* activation function to make the objective smooth. Show that the same strategy does not work for an arbitrary ANN. (Hint: consider the shape of the decision boundary if we did this.)  (10 points)
 
 Answer:
