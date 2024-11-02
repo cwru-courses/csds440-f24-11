@@ -245,7 +245,8 @@ $$
 
 Let's construct a perceptron $ \text{Sign}(x_1 + x_2 < 5) $ for all points $(x, y)$ such that $ x + y < 5 $ are positive and others are negative.
 
-So, $ p_2 = \text{Sign}(x_1 + x_2 < 5) = \text{Sign}(-x_1 + -x_2 > - 5) = \begin{cases} 
+So, 
+$ p_2 = \text{Sign}(x_1 + x_2 < 5) = \text{Sign}(-x_1 + -x_2 > - 5) = \begin{cases} 
 +1 & \text{if } -x_1 + -x_2 > - 5 \\ 
 -1 & \text{if } -x_1 + -x_2 < - 5 
 \end{cases} $
@@ -266,32 +267,32 @@ Here’s the forward pass formatted using `$` for inline math:
 #### Forward pass Calculations:
 
 1. **For $(x_1, x_2) = (-4, -4)$**:
-   $p_1 = \text{Sign}((-4) + (-4) > -5) = \text{Sign}(-8 > -5) = \text{Sign}(\text{False}) = -1$
-   
-   $p_2 = \text{Sign}(-(-4) - (-4) > -5) = \text{Sign}(8 > -5) = \text{Sign}(\text{True}) = 1$
-   
-   $a = \text{Sign}(p_1 + p_2 > 1) = \text{Sign}(-1 + 1 > 1) = \text{Sign}(0 > 1) = \text{Sign}(\text{False}) = -1$
+$p_1 = \text{Sign}((-4) + (-4) > -5) = \text{Sign}(-8 > -5) = \text{Sign}(\text{False}) = -1$
+
+$p_2 = \text{Sign}(-(-4) - (-4) > -5) = \text{Sign}(8 > -5) = \text{Sign}(\text{True}) = 1$
+
+$a = \text{Sign}(p_1 + p_2 > 1) = \text{Sign}(-1 + 1 > 1) = \text{Sign}(0 > 1) = \text{Sign}(\text{False}) = -1$
 
 2. **For $(x_1, x_2) = (-1, -1)$**:
-   $p_1 = \text{Sign}((-1) + (-1) > -5) = \text{Sign}(-2 > -5) = \text{Sign}(\text{True}) = 1$
-   
-   $p_2 = \text{Sign}(-(-1) - (-1) > -5) = \text{Sign}(2 > -5) = \text{Sign}(\text{True}) = 1$
-   
-   $a = \text{Sign}(p_1 + p_2 > 1) = \text{Sign}(1 + 1 > 1) = \text{Sign}(2 > 1) = \text{Sign}(\text{True}) = 1$
+$p_1 = \text{Sign}((-1) + (-1) > -5) = \text{Sign}(-2 > -5) = \text{Sign}(\text{True}) = 1$
+
+$p_2 = \text{Sign}(-(-1) - (-1) > -5) = \text{Sign}(2 > -5) = \text{Sign}(\text{True}) = 1$
+
+$a = \text{Sign}(p_1 + p_2 > 1) = \text{Sign}(1 + 1 > 1) = \text{Sign}(2 > 1) = \text{Sign}(\text{True}) = 1$
 
 3. **For $(x_1, x_2) = (1, 1)$**:
-   $p_1 = \text{Sign}((1) + (1) > -5) = \text{Sign}(2 > -5) = \text{Sign}(\text{True}) = 1$
-   
-   $p_2 = \text{Sign}(-(1) - (1) > -5) = \text{Sign}(-2 > -5) = \text{Sign}(\text{True}) = 1$
-   
-   $a = \text{Sign}(p_1 + p_2 > 1) = \text{Sign}(1 + 1 > 1) = \text{Sign}(2 > 1) = \text{Sign}(\text{True}) = 1$
+$p_1 = \text{Sign}((1) + (1) > -5) = \text{Sign}(2 > -5) = \text{Sign}(\text{True}) = 1$
+
+$p_2 = \text{Sign}(-(1) - (1) > -5) = \text{Sign}(-2 > -5) = \text{Sign}(\text{True}) = 1$
+
+$a = \text{Sign}(p_1 + p_2 > 1) = \text{Sign}(1 + 1 > 1) = \text{Sign}(2 > 1) = \text{Sign}(\text{True}) = 1$
 
 4. **For $(x_1, x_2) = (4, 4)$**:
-   $p_1 = \text{Sign}((4) + (4) > -5) = \text{Sign}(8 > -5) = \text{Sign}(\text{True}) = 1$
+$p_1 = \text{Sign}((4) + (4) > -5) = \text{Sign}(8 > -5) = \text{Sign}(\text{True}) = 1$
+
+$p_2 = \text{Sign}(-(4) - (4) > -5) = \text{Sign}(-8 > -5) = \text{Sign}(\text{False}) = -1$
    
-   $p_2 = \text{Sign}(-(4) - (4) > -5) = \text{Sign}(-8 > -5) = \text{Sign}(\text{False}) = -1$
-   
-   $a = \text{Sign}(p_1 + p_2 > 1) = \text{Sign}(1 + (-1) > 1) = \text{Sign}(0 > 1) = \text{Sign}(\text{False}) = -1$
+$a = \text{Sign}(p_1 + p_2 > 1) = \text{Sign}(1 + (-1) > 1) = \text{Sign}(0 > 1) = \text{Sign}(\text{False}) = -1$
 
 
 
@@ -481,15 +482,15 @@ $$
 
 2. Calculating $n_0$:
 
-   $$
-   n_0 = (1 \cdot 0.731) + (1 \cdot 0.731) = 1.462
-   $$
+$$
+n_0 = (1 \cdot 0.731) + (1 \cdot 0.731) = 1.462
+$$
 
 3. Calculating $h(n_0)$:
 
-   $$
-   h(n_0) = \sigma(1.462) = \frac{1}{1 + e^{-1.462}} = 0.8118
-   $$
+$$
+h(n_0) = \sigma(1.462) = \frac{1}{1 + e^{-1.462}} = 0.8118
+$$
 
 ---
 
@@ -497,78 +498,78 @@ $$
 
 1. Gradient with Respect to $w_5$:
 
-   $$
-   \frac{\partial L}{\partial w_5} = h(n_0)(1 - h(n_0)) h(n_1) (h(n_0) - y_0)
-   $$
+$$
+\frac{\partial L}{\partial w_5} = h(n_0)(1 - h(n_0)) h(n_1) (h(n_0) - y_0)
+$$
 
    Substitute values:
 
-   $$
-   = (0.8118)(1 - 0.8118)(0.731)(0.8118 - 1) = -0.02101
-   $$
+$$
+= (0.8118)(1 - 0.8118)(0.731)(0.8118 - 1) = -0.02101
+$$
 
 3. Gradient with Respect to $w_6$:
 
-   $$
-   \frac{\partial L}{\partial w_6} = h(n_0)(1 - h(n_0)) h(n_2) (h(n_0) - y_0)
-   $$
+$$
+\frac{\partial L}{\partial w_6} = h(n_0)(1 - h(n_0)) h(n_2) (h(n_0) - y_0)
+$$
 
    Substitute values:
 
-   $$
-   = (0.8118)(1 - 0.8118)(0.731)(0.8118 - 1) = -0.02101
-   $$
+$$
+= (0.8118)(1 - 0.8118)(0.731)(0.8118 - 1) = -0.02101
+$$
 
 
 
 
 5.  Gradient with Respect to $w_1$:
 
-   $$
-   \frac{\partial L}{\partial w_1} = h(n_1)(1 - h(n_1)) x_1 \left( \frac{\partial L}{\partial w_5} \frac{w_5}{h(n_1)} \right)
-   $$
-   
+$$
+\frac{\partial L}{\partial w_1} = h(n_1)(1 - h(n_1)) x_1 \left( \frac{\partial L}{\partial w_5} \frac{w_5}{h(n_1)} \right)
+$$
+
    Substitute values:
    
-   $$
-   = (0.731)(1 - 0.731)(0)(-0.021) \frac{1}{0.731} = 0
-   $$
+$$
+= (0.731)(1 - 0.731)(0)(-0.021) \frac{1}{0.731} = 0
+$$
 
 7. Gradient with Respect to $w_2$:
 
-   $$
-   \frac{\partial L}{\partial w_2} = h(n_2)(1 - h(n_2)) x_1 \left( \frac{\partial L}{\partial w_6} \frac{w_6}{h(n_2)} \right)
-   $$
+$$
+\frac{\partial L}{\partial w_2} = h(n_2)(1 - h(n_2)) x_1 \left( \frac{\partial L}{\partial w_6} \frac{w_6}{h(n_2)} \right)
+$$
 
    Substitute values:
 
-   $$
-   = (0.731)(1 - 0.731)(0) + (-0.021) \frac{1}{0.731} = 0
-   $$
+$$
+= (0.731)(1 - 0.731)(0) + (-0.021) \frac{1}{0.731} = 0
+$$
 
 5. Gradient with Respect to $w_3$:
    
-   $$
-   \frac{\partial L}{\partial w_3} = h(n_1)(1 - h(n_1)) x_1 \left( \frac{\partial L}{\partial w_5} \frac{w_5}{h(n_1)} \right)
-   $$
+$$
+\frac{\partial L}{\partial w_3} = h(n_1)(1 - h(n_1)) x_1 \left( \frac{\partial L}{\partial w_5} \frac{w_5}{h(n_1)} \right)
+$$
 
    Substitute values:
 
-   $$
-   = (0.731)(1 - 0.731)(1)(-0.021) \frac{1}{0.731} = -0.0056
-   $$
+$$
+= (0.731)(1 - 0.731)(1)(-0.021) \frac{1}{0.731} = -0.0056
+$$
 
 7. Gradient with Respect to $w_4$:
 
-   $$
-   \frac{\partial L}{\partial w_4} = h(n_2)(1 - h(n_2)) x_2 \left( \frac{\partial L}{\partial w_6} \frac{w_6}{h(n_2)} \right)
-   $$
+$$
+\frac{\partial L}{\partial w_4} = h(n_2)(1 - h(n_2)) x_2 \left( \frac{\partial L}{\partial w_6} \frac{w_6}{h(n_2)} \right)
+$$
 
    Substitute values:
 
-   $$
-   = (0.731)(1 - 0.731)(1)(-0.021) \frac{1}{0.731} = -0.0056
-   $$
+$$
+= (0.731)(1 - 0.731)(1)(-0.021) \frac{1}{0.731} = -0.0056
+$$
 
 
 
@@ -592,7 +593,6 @@ where:
 $$
 W = \begin{bmatrix} 1 \\ \vdots \\ \end{bmatrix} - \eta [ \begin{bmatrix} 0 \\ 0 \\ 0 \\ 0 \\ 0.0719 \\ 0.0719 \end{bmatrix} + \begin{bmatrix} 0 \\ 0 \\ -0.0056 \\ -0.0056 \\ -0.02101 \\ -0.02101 \end{bmatrix} ]
 $$
-
 
 
 $\eta = 10$
@@ -660,11 +660,11 @@ $L_{GD} = \frac{1}{2} \sum_{i=1}^m (y_i - \hat{y}_i)^2 = \frac{1}{2}((0.620)^2 +
 
    - **Weights After SGD**: 
 
-     $\begin{bmatrix} 1.0 \\ 1.0 \\ 1.0528502 \\ 1.0528502 \\ 0.97984755 \\ 0.97984755 \end{bmatrix}$
+$\begin{bmatrix} 1.0 \\ 1.0 \\ 1.0528502 \\ 1.0528502 \\ 0.97984755 \\ 0.97984755 \end{bmatrix}$
      
    - **Weights After GD**: 
 
-     $\begin{bmatrix} 1.0 \\ 1.0 \\ 1.0565026 \\ 1.0565026 \\ 0.49141848 \\ 0.49141848 \end{bmatrix}$
+$\begin{bmatrix} 1.0 \\ 1.0 \\ 1.0565026 \\ 1.0565026 \\ 0.49141848 \\ 0.49141848 \end{bmatrix}$
 
    **Observation**: 
    - The weights in SGD are updated in small random steps which sometimes may increase the loss function as the the weights are updated with gradiants with single examle.
