@@ -46,6 +46,53 @@ class NaiveBayes(Classifier):
         # calculate feature probs
         self.calculate_feature_probs(unique_classes,X_discrete,y)
 
+    def calculate_cls_probs(self,num_of_classes,unique_classes,class_counts,total_samples):
+            for i in range(num_of_classes):
+                cls = unique_classes[i]
+                count = class_counts[i]
+                
+                # Calculating probability
+                if self.m >= 0:
+                    prob = (count + self.m / num_of_classes) / (total_samples + self.m)
+                else:
+                    prob = (count + 1) / (total_samples + num_of_classes)  # use Laplace smoothing if m < 0
+
+                # Assign to the dictionary
+                self.cls_probabilities[cls] = prob
+    def calculate_feature_probs(self,unique_classes,X_discrete,y):
+                
+        # Initialize feature probabilities as an empty dictionary for each class
+        self.feature_probabilities = {}
+        for cls in unique_classes:
+            cls_idxs = np.where(y == cls)[0]  # Idxs for samples in the perticular cls
+            num_of_class_samples = len(cls_idxs)
+            self.feature_probabilities[cls] = {}  # Initializing each class dictionary
+
+            nub_of_colums =X_discrete.shape[1]
+            for feature_idx in range(nub_of_colums):
+                # Get the feature values for the samples of the current class
+                feature_values = X_discrete[cls_idxs, feature_idx]
+                # defining bin_counts
+                bin_counts = np.zeros(self.numb_of_bins, dtype=int)
+
+                # Count the occurrences in each bin
+                for value in feature_values:
+                    if 0 <= value  and value < self.numb_of_bins:
+                        bin_counts[value] = bin_counts[value] + 1
+                                
+                # Initializing the dictionary for current feature
+                self.feature_probabilities[cls][feature_idx] = {}
+                
+                for bin_idx in range(self.numb_of_bins):
+                    # Calculating the probabilities with m-estimate and for Laplace smoothing
+                    if self.m < 0:
+                        probability = (bin_counts[bin_idx] + 1) / (num_of_class_samples + self.numb_of_bins)
+                    else:
+                        probability = (bin_counts[bin_idx] + self.m / self.numb_of_bins) / (num_of_class_samples + self.m)
+                        
+
+                    # Assigning the probabilities for the  bin idxs
+                    self.feature_probabilities[cls][feature_idx][bin_idx] = probability
 
 
 def nbayes(data_path: str, no_cv: bool, numb_of_bins: int, m: float):
