@@ -90,6 +90,53 @@ class Regression:
         value = (probaility >= 0.5).astype(int)
         return value
 
+def logisticRegression(data_path: str, use_cross_validation: bool, regLambda: float):
+    # Logistic Regression method to run on the data, cross-validation is optional
+    path = os.path.expanduser(data_path).split(os.sep)
+    file_base = path[-1]
+    root_dir = os.sep.join(path[:-1])
+    schema, X, y = parse_c45(file_base, root_dir)
+
+    if use_cross_validation:
+        datasets = util.cv_split(X, y, folds=5, stratified=True)
+    else:
+        datasets = ((X, y, X, y),)
+
+    accuracies, precisions, recalls = [], [], []
+    yTrueLable, allConfidences = [], []
+
+    for X_train, y_train, X_test, y_test in datasets:
+        model = Regression(schema=schema, regLambda=regLambda)
+        model.fit(X_train, y_train)
+        
+        # for evaluation purpose we created predict and predict probability method
+        y_pred = model.predict(X_test)
+        confidences = model.predictProbability(X_test)
+
+        # gathering all true labels and conficences
+        yTrueLable.extend(y_test)
+        allConfidences.extend(confidences)
+
+        # calculate the metrics and append to respective list
+        accuracies.append( util.accuracy(y_test, y_pred))
+        precisions.append(util.precision(y_test, y_pred))
+        recalls.append(util.recall(y_test, y_pred))
+
+    
+    #here we are colleting the all true labels and confidences aofr future (auc) calculatoin
+    yTrueLable = np.array(yTrueLable)
+    allConfidences = np.array(allConfidences)
+    auc = util.auc(yTrueLable, allConfidences)
+
+    # print the accuracy,precisoin and Recall,ROC in required format
+    print(f"Accuracy: {np.mean(accuracies):.3f} {np.std(accuracies):.3f}")
+    print(f"Precision: {np.mean(precisions):.3f} {np.std(precisions):.3f}")
+    print(f"Recall: {np.mean(recalls):.3f} {np.std(recalls):.3f}")
+    print(f"Area under ROC: {auc:.3f}")
+    # Return the mean accuracy, precision and recalls and area uner curve(auc)
+    return np.mean(accuracies), np.mean(precisions), np.mean(recalls), auc
+
+
 
 if __name__ == '__main__':
     # To run the logistic regression with command-line arguments
