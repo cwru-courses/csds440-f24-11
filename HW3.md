@@ -199,17 +199,545 @@ Therefore, by using above equations for the weights and biases in the hidden lay
 
 Answer:
 
+
+![alt text](images/image-2.png)
+
+From the figure, it is clear that:
+- The region between two hyperplanes is the positive region.
+- The region outside is the negative region.
+
+We have to build artificial neural network that satisfies the above criteria.
+
+Let the two hyperplanes have the following form:
+
+### Hyperplane 1
+Let $x_1$-intercept = -5, $x_2$-intercept = -5.
+
+$$
+\frac{x_1}{-5} + \frac{x_2}{-5} = 1
+$$
+
+This simplifies to:
+
+$$
+x_1 + x_2 = -5
+$$
+
+Let's construct a perceptron as 
+
+$ \text{Sign}(x_1 + x_2 > - 5) $, which outputs all points where $ x_1 + x_2 = -5 $ as $ + $ and others as $ - $.$
+
+So, perceptron $ p_1 = \text{Sign}(x_1 + x_2 > - 5) = \begin{cases} 
++1 & \text{if } x_1 + x_2 > -5 \\ 
+-1 & \text{if } x_1 + x_2 < -5 
+\end{cases} $
+
+### Hyperplane 2
+Let $x_1$-intercept = +5, $x_2$-intercept = +5.
+
+$$
+\frac{x_1}{5} + \frac{x_2}{5} = 1
+$$
+
+This simplifies to:
+
+$$
+x_1 + x_2 = 5
+$$
+
+Let's construct a perceptron 
+
+$ \text{Sign}(x_1 + x_2 < 5) $ for all points $(x, y)$ such that $ x + y < 5 $ are positive and others are negative.$
+
+So, 
+$$ p_2 = \text{Sign}(x_1 + x_2 < 5) = \text{Sign}(-x_1 + -x_2 > - 5) = \begin{cases} 
++1 & \text{if } -x_1 + -x_2 > - 5 \\ 
+-1 & \text{if } -x_1 + -x_2 < - 5 
+\end{cases} $$
+
+To take the intersection between the two regions where both perceptrons are positive, we need an **AND gate**.
+
+Perceptrons:
+- $ p_1 = \text{Sign}(x_1 + x_2 > - 5) $
+- $ p_2 = \text{Sign}(-x_1 - x_2 > - 5) $
+- $ a = \text{Sign}(x_1 + x_2 > 1) $
+
+where, 
+
+$ a = x_1 + x_2 > 1 $ is and function implmentation using peceptron.
+![alt text](images/image-3.png)
+
+
+
+
+#### Forward pass Calculations:
+
+1. **For $(x_1, x_2) = (-4, -4)$**:
+
+$p_1 = \text{Sign}((-4) + (-4) > -5) = \text{Sign}(-8 > -5) = \text{Sign}(\text{False}) = -1$
+
+$p_2 = \text{Sign}(-(-4) - (-4) > -5) = \text{Sign}(8 > -5) = \text{Sign}(\text{True}) = 1$
+
+$a = \text{Sign}(p_1 + p_2 > 1) = \text{Sign}(-1 + 1 > 1) = \text{Sign}(0 > 1) = \text{Sign}(\text{False}) = -1$
+
+2. **For $(x_1, x_2) = (-1, -1)$**:
+
+$p_1 = \text{Sign}((-1) + (-1) > -5) = \text{Sign}(-2 > -5) = \text{Sign}(\text{True}) = 1$
+
+$p_2 = \text{Sign}(-(-1) - (-1) > -5) = \text{Sign}(2 > -5) = \text{Sign}(\text{True}) = 1$
+
+$a = \text{Sign}(p_1 + p_2 > 1) = \text{Sign}(1 + 1 > 1) = \text{Sign}(2 > 1) = \text{Sign}(\text{True}) = 1$
+
+3. **For $(x_1, x_2) = (1, 1)$**:
+
+$p_1 = \text{Sign}((1) + (1) > -5) = \text{Sign}(2 > -5) = \text{Sign}(\text{True}) = 1$
+
+$p_2 = \text{Sign}(-(1) - (1) > -5) = \text{Sign}(-2 > -5) = \text{Sign}(\text{True}) = 1$
+
+$a = \text{Sign}(p_1 + p_2 > 1) = \text{Sign}(1 + 1 > 1) = \text{Sign}(2 > 1) = \text{Sign}(\text{True}) = 1$
+
+4. **For $(x_1, x_2) = (4, 4)$**:
+
+$p_1 = \text{Sign}((4) + (4) > -5) = \text{Sign}(8 > -5) = \text{Sign}(\text{True}) = 1$
+
+$p_2 = \text{Sign}(-(4) - (4) > -5) = \text{Sign}(-8 > -5) = \text{Sign}(\text{False}) = -1$
+   
+$a = \text{Sign}(p_1 + p_2 > 1) = \text{Sign}(1 + (-1) > 1) = \text{Sign}(0 > 1) = \text{Sign}(\text{False}) = -1$
+
+
+
+| \( x_1 \) | \( x_2 \) | \( p_1 \) | \( p_2 \) | \( a \) |
+|-----------|-----------|-----------|-----------|---------|
+| −4        | −4        | −1        | 1         | −1      |
+| −1        | −1        | 1         | 1         | 1       |
+| 1         | 1         | 1         | 1         | 1       |
+| 4         | 4         | 1         | −1        | −1      |
+
+
 5.	Using R/Matlab/Mathematica/python/your favorite software, plot the decision boundary for an ANN with two inputs, two hidden units and one output. All activation functions are sigmoids. Each layer is fully connected to the next. Assume the inputs range between −5 to 5 and fix all activation thresholds to 0. Plot the decision boundaries for  the weights except the thresholds randomly chosen between (i) (−10,10), (ii) (−3,3), (iii) (−0.1,0.1) (one random set for each case is enough). Use your plots to show that weight decay can be used to control overfitting for ANNs. (If you use Matlab, the following commands might be useful: meshgrid and surf). (20 points)
 
 Answer:
+
+![Alt text](images/Figure_1.png)
+
+![Alt text](images/Figure_2.png)
+
+![Alt text](images/Figure_3.png)
+
+Plot 1: 
+
+        It shows a highly flexible decision boundary as the range of weights it can take is huge, which leads to memorization of the training data.
+        
+        It seems like a case of overfitting. Because of the large range of weights, it creates complex boundaries. It loses generalizability.
+        
+Plot 2: 
+
+         It shows a smooth decision boundary that loosely fits the training data and promotes Generalization i.e. and perform better on unseen data.
+         
+         It experiences smaller weight sizes resulting in a simpler model.
+         
+         It seems less likely to overfit due to smooth boundaries and less likely to fit noise.
+         
+Plot 3: 
+
+        It shows a simple decision boundary due to underfitting.
+        
+        It produce Linear Decision Boundaries. Restrict the model to overfit and capture complex patterns but also make the network useless because the network uses its ability to differentiate classes.
+        
+weight decay can be used to control overfitting for ANNs because of the following reasons:-
+Models with a high weight range (eg -10,10) can cause overfitting especially if initialized randomly The model can become complex and lead to memorization and overfitting.
+
+Its seems pretty clear from Plot 2 that if the weight becomes in the reasonable range (eg -3,3), then the decision boundry becomes more generalized and gives more accurate results in unseen data.
+
+Here the weight decay comes into the picture by adding some penalty on large weights.
+
+$$
+L_{\text{reg}} = L + \lambda \sum_{i} w_i^2
+$$
+
+where:
+- L = original loss
+- λ = regularization parameter that controls the strength of weight decay
+- ∑iw<sub>I</sub>^2 = sum of the squares of all the weights
+
+λ values control the weight Decay
+- large λ values cause simple decision boundaries i.e. underfit.
+- Moderate λ values make a perfect balance between fitting and generalization
+- Small λ values make highly specific decision boundaries to training data (if weights are chosen randomly high) causing overfitting.
+
+The above plots are taken as the reference for 
+- if λ is high then the plot looks similar to Case 3
+- if λ is small then the plot looks similar to Case 1
+- if λ is chosen moderately then the plot looks similar to Case 2
+
+
+
 
 6.	When learning the weights for the perceptron, we dropped the *sign* activation function to make the objective smooth. Show that the same strategy does not work for an arbitrary ANN. (Hint: consider the shape of the decision boundary if we did this.)  (10 points)
 
 Answer:
 
+In feed forward ANN the layer takes input either output of previous layer or input data. By using weights and bias transformation is applied . output defiend as without activation function
+
+$h_{l} = W_{l} h_{l-1} + b_{l}$ or $h = Wx + b$(for specifc layer)
+
+Where:
+- $ h_{l} $ = the output of layer $ l $,
+- $ W_{l} $ = weight matrix for layer $ l $,
+- $ b_{l} $ = bias vector for layer $ l $,
+- $ h_{l-1} $ = output of the previous layer  but if (or if $ l = 1 $ the $ h_{l-1} $ will be x(consider) which is input data).
+
+    
+Let us consider multiple layers and calculate $h$:
+
+1. **1st layer output**:
+
+$$h_1 = W_1 x + b_1$$
+
+2. **2nd layer output**:
+
+$$h_2 = W_2 h_1 + b_2 = W_2(W_1 x + b_1) + b_2 = W_2 W_1 x + W_2 b_1 + b_2$$
+
+3. **3rd layer output**:
+
+$$h_3 = W_3 h_2 + b_3 = W_3(W_2 W_1 x + W_2 b_1 + b_2) + b_3 = (W_3 W_2 W_1)x + (W_3 W_2 b_1 + W_3 b_2 + b_3)$$
+
+   which is in $Wx + b$ form which is a linear function. If we do the same for $L$ number of layers, the output will be in linear form:
+
+$$
+h_{L} = W_{L} W_{L-1} \dots W_{1} x + \sum_{l=1}^{L} \left( \prod_{j=l+1}^{L} W_{j} \right) b_{l}
+$$
+
+   Le us say
+    
+$$
+W_{\text{final layer}} = W_{L} W_{L-1} \dots W_{1}
+$$
+
+$$
+b_{\text{final layer}} = \sum_{l=1}^{L} \left( \prod_{j=l+1}^{L} W_{j} \right) b_{l}
+$$
+
+
+
+Thus:
+
+$$h_L = W_{\text{final layer}} x + b_{\text{final layer}} = Wx + b$$
+
+Which shows us that the output of the whole network is a linear transformation of $x$, irrespective of the count of layers. A linear function means the shape of the decision boundary will be a straight line, and for any other non-linear decision boundary, the ANN won't be applicable. This means the whole network is essentially reduced to a single-layer linear model.
+
+
+
 7.	Redo the backprop example done in class  with one iteration of gradient descent instead of two iterations of SGD as done in class. Compare the average losses after GD and SGD. Discuss the differences you observe in the weights and the losses. (10 points)
 
 Answer: 
+
+
+![alt text](images/image-q7.png)
+
+
+
+Let $n_j$ be net input to unit $j$.
+
+$$
+n_j = w_1 \cdot x_1 + w_3 \cdot x_2, \quad n_2 = w_2 \cdot x_2 + w_4 \cdot x_2
+$$
+
+$$
+n_0 = w_5 \cdot h(n_1) + w_6 \cdot h(n_2)
+$$
+
+$$
+o = h(n_0)
+$$
+
+## Forward Pass Calculation
+
+Forward pass $(x_1, x_2, f) = (0, 0, 0)$
+
+$$
+n_1 = 0, \quad n_2 = 0
+$$
+
+$$
+h(n_1) = \sigma(0) = \frac{1}{1 + e^0} = \frac{1}{2}
+$$
+
+$$
+h(n_2) = \sigma(0) = \frac{1}{2}
+$$
+
+$$
+n_0 = \frac{1}{2} + \frac{1}{2} = 1
+$$
+
+$$
+h(n_0) = \frac{1}{1 + e^{-1}} = 0.731
+$$
+
+![alt text](images/image_2-q7.png)
+
+## For Total Gradient Descent (GD) :- 
+
+## Gradient Calculations for Each Weight
+
+### Gradient with Respect to $w_5$
+
+$$
+\frac{\partial L}{\partial w_5} = h(n_0)(1 - h(n_0)) \, x_{o1} (h(n_0) - y_0)
+$$
+
+Substitute values:
+
+$$
+= (0.731)(1 - 0.731) \cdot \frac{1}{2} (0.731 - 0)
+$$
+
+$$
+= (0.731)(0.269) \cdot \frac{1}{2} = 0.0719
+$$
+
+### Gradient with Respect to $w_6$
+
+$$
+\frac{\partial L}{\partial w_6} = h(n_0)(1 - h(n_0)) \, x_{o2} (h(n_0) - y_0)
+$$
+
+Substitute values:
+
+$$
+= (0.731)(1 - 0.731) \cdot \frac{1}{2} = 0.0719
+$$
+
+### Gradient with Respect to $w_1$
+
+$$
+\frac{\partial L}{\partial w_1} = h(n_1)(1 - h(n_1)) \, x_1 \frac{\partial L}{\partial h(n_1)}
+$$
+
+Substitute values:
+
+$$
+= \frac{1}{2} \left(1 - \frac{1}{2}\right) \cdot 0 \cdot \left(0.0719 \cdot \frac{1}{2}\right) = 0
+$$
+
+### Gradient with Respect to $w_2$
+
+$$
+\frac{\partial L}{\partial w_2} = h(n_2)(1 - h(n_2)) \, x_2 \frac{\partial L}{\partial h(n_2)} = 0
+$$
+
+Similarly,
+
+$$
+\frac{\partial L}{\partial w_3} = 0, \quad \frac{\partial L}{\partial w_4} = 0
+$$
+
+
+
+
+
+
+
+### Forward Pass for $(x_1, x_2) = (0, 1)$
+![alt text](images/image_3-q7.png)
+
+1. Calculating $n_1$ and $n_2$:
+   - $n_1 = 0 + 1 = 1$
+   - $n_2 = 0 + 1 = 1$
+   - $h(n_1) = \frac{1}{1 + e^{-1}} = 0.731$, $h(n_2) = 0.731$
+
+2. Calculating $n_0$:
+
+$$
+n_0 = (1 \cdot 0.731) + (1 \cdot 0.731) = 1.462
+$$
+
+3. Calculating $h(n_0)$:
+
+$$
+h(n_0) = \sigma(1.462) = \frac{1}{1 + e^{-1.462}} = 0.8118
+$$
+
+---
+
+### Gradient Calculations
+
+1. Gradient with Respect to $w_5$:
+
+$$
+\frac{\partial L}{\partial w_5} = h(n_0)(1 - h(n_0)) h(n_1) (h(n_0) - y_0)
+$$
+
+   Substitute values:
+
+$$
+= (0.8118)(1 - 0.8118)(0.731)(0.8118 - 1) = -0.02101
+$$
+
+3. Gradient with Respect to $w_6$:
+
+$$
+\frac{\partial L}{\partial w_6} = h(n_0)(1 - h(n_0)) h(n_2) (h(n_0) - y_0)
+$$
+
+   Substitute values:
+
+$$
+= (0.8118)(1 - 0.8118)(0.731)(0.8118 - 1) = -0.02101
+$$
+
+
+
+
+5.  Gradient with Respect to $w_1$:
+
+$$
+\frac{\partial L}{\partial w_1} = h(n_1)(1 - h(n_1)) x_1 \left( \frac{\partial L}{\partial w_5} \frac{w_5}{h(n_1)} \right)
+$$
+
+   Substitute values:
+   
+$$
+= (0.731)(1 - 0.731)(0)(-0.021) \frac{1}{0.731} = 0
+$$
+
+7. Gradient with Respect to $w_2$:
+
+$$
+\frac{\partial L}{\partial w_2} = h(n_2)(1 - h(n_2)) x_1 \left( \frac{\partial L}{\partial w_6} \frac{w_6}{h(n_2)} \right)
+$$
+
+   Substitute values:
+
+$$
+= (0.731)(1 - 0.731)(0) + (-0.021) \frac{1}{0.731} = 0
+$$
+
+5. Gradient with Respect to $w_3$:
+   
+$$
+\frac{\partial L}{\partial w_3} = h(n_1)(1 - h(n_1)) x_1 \left( \frac{\partial L}{\partial w_5} \frac{w_5}{h(n_1)} \right)
+$$
+
+   Substitute values:
+
+$$
+= (0.731)(1 - 0.731)(1)(-0.021) \frac{1}{0.731} = -0.0056
+$$
+
+7. Gradient with Respect to $w_4$:
+
+$$
+\frac{\partial L}{\partial w_4} = h(n_2)(1 - h(n_2)) x_2 \left( \frac{\partial L}{\partial w_6} \frac{w_6}{h(n_2)} \right)
+$$
+
+   Substitute values:
+
+$$
+= (0.731)(1 - 0.731)(1)(-0.021) \frac{1}{0.731} = -0.0056
+$$
+
+
+
+## Weight Update for Gradient Descent (GD)
+
+The weight update rule for gradient descent is given by:
+
+$$
+W \leftarrow W - \eta \sum_{i=1}^m \nabla W L_i
+$$
+
+where:
+- $m =$ number of examples
+- $L_i$ is the loss obtained when the $i$-th example is passed
+- $\nabla W L_i = L(y_i, \hat{y}_i)$ represents the gradient of the loss with respect to the weights for each example $i$
+
+---
+
+### Expanded Form of Weight Update
+
+$$
+W = \begin{bmatrix} 1 \\ \vdots \\ \end{bmatrix} - \eta [ \begin{bmatrix} 0 \\ 0 \\ 0 \\ 0 \\ 0.0719 \\ 0.0719 \end{bmatrix} + \begin{bmatrix} 0 \\ 0 \\ -0.0056 \\ -0.0056 \\ -0.02101 \\ -0.02101 \end{bmatrix} ]
+$$
+
+
+$\eta = 10$
+
+$W = \begin{bmatrix} 1\\ 1\\ 1 + 0.056 \\ 1 + 0.056 \\ 1 - 0.509 \\ 1 - 0.509 \end{bmatrix} = \begin{bmatrix}  1\\ 1\\ 1.056 \\ 1.056 \\ 0.491 \\ 0.491 \end{bmatrix}$
+
+**Doing Forward Pass with Following Weights**
+
+---
+
+![alt text](images/image_4-q7.png)
+### Forward Pass for $(0,0)$
+
+$n_1, n_2 = 0$, $h(n_1) = h(n_2) = \frac{1}{2} = 0.5$
+
+$n_0 = 0.491$, $h(n_0) = \frac{1}{1 + e^{-0.491}} = 0.620$
+
+
+
+**Forward Pass for $(0,1)$**
+
+$n_1 = h_2 = 1.056$, $h(n_1) = h(n_2) = \frac{1}{1 + e^{-1.056}} = 0.7419$
+
+$n_0 = 2 \cdot (0.4491) \cdot (0.7419) = 1.408$
+
+$h(n_0) = \frac{1}{1 + e^{-1.408}} = 0.8034$
+
+- The SGD calculation from the class:-
+
+**SGD Forward Pass after 2 iterations**
+
+| $x_1$ | $x_2$ | $f$ | $\hat{y}$ |
+|-------|-------|-----|-----------|
+| 0     | 0     | 0   | 0.5866    |
+| 0     | 1     | 1   | 0.8104    |
+
+
+$L_{SGD} = \frac{1}{2} \sum_{i=1}^m (y_i - \hat{y}_i)^2 = \frac{1}{2}((0.5866)^2 + (0.1896)^2) = 0.346$
+
+---
+
+**GD Forward Pass**
+
+| $x_1$ | $x_2$ | $f$ | $\hat{y}$ |
+|-------|-------|-----|-----------|
+| 0     | 0     | 0   | 0.620     |
+| 0     | 1     | 1   | 0.674     |
+
+
+$L_{GD} = \frac{1}{2} \sum_{i=1}^m (y_i - \hat{y}_i)^2 = \frac{1}{2}((0.620)^2 + (0.326)^2) = 0.2453$
+
+
+
+### 1. **Loss Comparison:**
+
+   - **Average Loss After SGD**: $0.3467$
+   - **Average Loss After GD**: $0.2454$
+
+   **Observation**: 
+   - The Toatal gradient descent(GD) has lower average loss than SGD. 
+   - This happens because Total gradient descent (GD) uses all the examples to compute an gradient which is the true gradiant of the loss function rather than an approximation in the case odf SGD, leading to a more accurate adjustment in weights that minimizes the loss more effectively for the entire dataset.
+   -Where as SGD, updates weights after each example which is an approximation of the true gradiant, which can lead to a noisier and less optimal loss reduction in the short term.
+
+### 2. **Weight Updates:**
+
+   - **Weights After SGD**: 
+
+$\begin{bmatrix} 1.0 \\ 1.0 \\ 1.0528502 \\ 1.0528502 \\ 0.97984755 \\ 0.97984755 \end{bmatrix}$
+     
+   - **Weights After GD**: 
+
+$\begin{bmatrix} 1.0 \\ 1.0 \\ 1.0565026 \\ 1.0565026 \\ 0.49141848 \\ 0.49141848 \end{bmatrix}$
+
+   **Observation**: 
+   - The weights in SGD are updated in small random steps which sometimes may increase the loss function as the the weights are updated with gradiants with single examle.
+  -  SGD updates the weights based on individual examples, leading to smaller, incremental adjustments. 
+  -  In contrast, Total GD, applies gradient update averaged over all examples which leads to more significant changes in the weights.
+
 
 Answer 8-10 with the following scenario. The Bayesian Candy Factory makes a Halloween Candy Box that contains a mix of yummy (Y) and crummy (C) candy. You know that each Box is one of three types: 1. 80% Y and 20% C, 2. 55% Y and 45% C and 3. 30% Y and 70% C. You open a Box and start munching candies. Let the $i^{th}$ candy you munch be denoted by $c_i$. Answer the following questions using a program written in any language of your choice. Generate one Box with 100 candies for each type, and assume any fixed order of munching.
  
@@ -223,6 +751,35 @@ Answer:
 
 Answer:
 
+![alt text](images/box_type_3_crummy_probability.png) ![alt text](images/box_type_2_crummy_probability.png) ![alt text](images/box_type_1_crummy_probability.png)
+
 10.	Suppose before opening a Box you believe that each Box has 70% crummy candies (type 3) with probability 0.8 and the probability of the other two types is 0.1 each. Replot $\Pr(T=i|c_1,…,c_N)$ taking this belief into account for each of the 3 Boxes. Briefly explain the implications of your results. (10 points)
 
 Answer: 
+
+![alt text](images/box_type_1_posterior_with_updated_prior.png) ![alt text](images/box_type_3_posterior_with_updated_prior.png) ![alt text](images/box_type_2_posterior_with_updated_prior.png)
+
+
+
+### 1. Box Type 1 Plot (First Image)
+
+- As we start with a strong belief (with prior probability of 0.8)  that the box is Type 3, At the start Type 3 starts higher than the other two represented by the green line .
+- But as more Yummy candies ( Type 1) are observed, the posterior probability for Type 1 (red line)  overtakes the others and finally converges to 1, despite the initial high prior for Type 3.
+-  This plot implies that even if Type 3 has a strong prior, the accumulation of evidence of Yummy candies (Type 1) correctly shifts the belief toward Type 1.
+
+
+
+### 2. Box Type 3 Plot (Second Image)
+
+-  For the box of Type 3, the observed data  (more Crummy candies) aligns with the high prior for Type 3, resulting in the posterior for Type 3 (green line) converge very quickly to 1.
+-  The  Type 3 posterior probability  remains close to 1, as more candies are consumed, while for Types 1 and 2 (red and blue lines) the posterior probabilities  remain close to 0.
+- This plot shows if we have a strong prior that aligns with the true data  reinforces the posterior belief
+
+
+
+### 3. Box Type 2 Plot (Third Image)
+
+- Because of the initial sequence of candies munched contains a few Yummy candies in a row, the posterior temporarily favors Box Type 1 ctreating bump in favour of Box 1
+- As we start with a strong belief (with prior probability of 0.8)  that the box is Type 3, At the start Type 3 starts higher than the other two represented by the green line .
+- But as more  candies are observed, the posterior probability for Type 2 (Blue line)  overtakes the others and finally converges to 1, despite the initial high prior for Type 3.
+-  This plot implies that even if Type 3 has a strong prior, the accumulation of evidence of for Type 2 correctly shifts the belief toward Type 2.
