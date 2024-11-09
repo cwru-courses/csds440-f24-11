@@ -153,7 +153,8 @@ class NaiveBayes(Classifier):
             log_probs[cls] = log_prob
         return log_probs
 
-def nbayes(data_path: str, no_cv: bool, numb_of_bins: int, m: float):
+
+def nbayes(data_path: str, use_cross_validation: bool, numb_of_bins: int, m: float):
     """Run Naive Bayes on the dataset, optionally using cross-validation."""
     path = os.path.expanduser(data_path).split(os.sep)
     file_base = path[-1]
@@ -175,6 +176,34 @@ def nbayes(data_path: str, no_cv: bool, numb_of_bins: int, m: float):
 
 
 
+        # Calculate metrics for the current fold
+        acc = util.accuracy(y_test, y_pred)
+        accuracies.append(acc)
+        prec = util.precision(y_test, y_pred)
+        precisions.append(prec)
+        rec = util.recall(y_test, y_pred)
+        recalls.append(rec)
+
+        # Get log prob and convert it into confidences for ROC/AUC
+        proba_dicts = model.predict_proba(X_test)
+        confidences = [np.exp(proba_dicts[i][1]) for i in range(len(y_pred))]
+
+        # Collecting all true labels and its confidences for calculation of  pooled AUC 
+        all_y_true.extend(y_test)
+        all_confidences.extend(confidences)  
+       
+
+    #Calculate AUC
+    auc = util.auc(np.array(all_y_true), np.array(all_confidences))
+
+    # Print metrics as per the required format
+    print(f"Accuracy: {np.mean(accuracies):.3f} {np.std(accuracies):.3f}")
+    print(f"Precision: {np.mean(precisions):.3f} {np.std(precisions):.3f}")
+    print(f"Recall: {np.mean(recalls):.3f} {np.std(recalls):.3f}")
+    print(f"Area under ROC: {auc:.3f}")
+
+    # Return the metrics as a tuple
+    return np.mean(accuracies), np.mean(precisions), np.mean(recalls), auc
 
 if __name__ == '__main__':
     """Main function for running Naive Bayes with command-line arguments."""
@@ -199,3 +228,4 @@ if __name__ == '__main__':
     use_cross_validation = args.cv
 
     nbayes(data_path, use_cross_validation, numb_of_bins, m)
+
