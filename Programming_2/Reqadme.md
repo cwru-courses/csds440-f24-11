@@ -1,0 +1,2 @@
+- command for logreg :- python src/logreg.py 440data/spam 0
+- command fro nbbayes :- python src/nbayes.py 440data/spam 5 -1
