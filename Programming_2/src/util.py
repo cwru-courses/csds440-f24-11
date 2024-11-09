@@ -89,20 +89,20 @@ def cv_split(
                 index_fold[i].extend(splt[i])
         #Genrating sets for each fold (Training and Testing)
         for i in range(folds):
-            test_idx = np.array(index_fold[i])
-            train_idx = np.array([idx for idx in index if idx not in test_idx])
-            X_train, y_train = X[train_idx], y[train_idx]
-            X_test, y_test = X[test_idx], y[test_idx]
+            test_index = np.array(index_fold[i])
+            train_index = np.array([idx for idx in index if idx not in test_index])
+            X_train, y_train = X[train_index], y[train_index]
+            X_test, y_test = X[test_index], y[test_index]
             datasets.append((X_train, y_train, X_test, y_test))
     else:
         #Remaining unstratified split requires random shuffling then split into
         np.random.shuffle(index)
         splt = np.array_split(index, folds)
         for i in range(folds):
-            test_idx = splt[i]
-            train_idx = np.hstack([splt[j] for j in range(folds) if j != i])
-            X_train, y_train = X[train_idx], y[train_idx]
-            X_test, y_test = X[test_idx], y[test_idx]
+            test_index = splt[i]
+            train_index = np.hstack([splt[j] for j in range(folds) if j != i])
+            X_train, y_train = X[train_index], y[train_index]
+            X_test, y_test = X[test_index], y[test_index]
             datasets.append((X_train, y_train, X_test, y_test))
 
     return datasets
