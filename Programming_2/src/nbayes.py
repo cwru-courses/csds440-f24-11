@@ -94,6 +94,64 @@ class NaiveBayes(Classifier):
                     # Assigning the probabilities for the  bin idxs
                     self.feature_probabilities[cls][feature_idx][bin_idx] = probability
 
+           
+    def discretize_continuous_features(self, X: np.ndarray) -> np.ndarray:
+        #Discretizing continuous features into  numb_of_bins
+        X_discrete = np.zeros_like(X, dtype=int)
+        for idx, feature in enumerate(self.data_schema):
+            if feature.ftype == FeatureType.CONTINUOUS:
+                min_val = np.min(X[:, idx])
+                max_val = np.max(X[:, idx])
+                bin_width = (max_val - min_val) / self.numb_of_bins
+                self.feature_bins[idx] = (min_val, bin_width)
+                z=(X[:, idx] - min_val) / bin_width
+                z_floor= np.floor(z).astype(int)
+                X_discrete[:, idx] = np.clip(
+                    z_floor, 0, self.numb_of_bins - 1
+                )
+            else:
+                X_discrete[:, idx] = X[:,idx]
+        return X_discrete
+
+    def predict(self, X: np.ndarray):
+        #function to predict labels for input data and return ndarray of predictions.
+        predictions =[]
+        X_discrete = self.discretize_continuous_features(X)
+        for x in X_discrete:
+            predictions.append(self.predict_single_input(x))
+        
+        return np.array(predictions)
+
+    def predict_proba(self, X: np.ndarray):
+        #function for probabilities prediction for each class
+        X_discrete = self.discretize_continuous_features(X)
+        probs =[]
+        X_discrete = self.discretize_continuous_features(X)
+        for x in X_discrete:
+            probs.append(self.predict_prob_single_input(x))
+        
+        return np.array(probs)
+
+    def predict_single_input(self, x: np.ndarray) -> int:
+        #function to Predict the output for each example
+        log_probs = self.predict_prob_single_input(x)
+        max_logprob_cls= max(log_probs, key=log_probs.get)
+        return max_logprob_cls
+
+    def predict_prob_single_input(self, x: np.ndarray) -> dict:
+        #function to Calculate log probabilities for each class for a single example.
+        log_probs = {}
+        for cls in self.cls_probabilities:
+            log_prob = np.log(self.cls_probabilities[cls])
+            for feature_idx, feature_value in enumerate(x):
+                col=self.feature_probabilities[cls][feature_idx]
+                prob = col.get(feature_value, 1e-10)
+                if prob > 0:
+                    log_prob += np.log(prob)
+                else:
+                    log_prob += np.log(1e-10)
+            log_probs[cls] = log_prob
+        return log_probs
 
 def nbayes(data_path: str, no_cv: bool, numb_of_bins: int, m: float):
     """Run Naive Bayes on the dataset, optionally using cross-validation."""
